@@ -3,8 +3,8 @@ import SupabaseLogo from "./SupabaseLogo";
 
 export default function Header() {
   return (
-    <div className="flex flex-col gap-16 items-center">
-      <div className="flex gap-8 justify-center items-center">
+    <div className="flex flex-col items-center gap-16">
+      <div className="flex items-center justify-center gap-8">
         <a
           href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
           target="_blank"
@@ -12,7 +12,7 @@ export default function Header() {
         >
           <SupabaseLogo />
         </a>
-        <span className="border-l rotate-45 h-6" />
+        <span className="h-6 rotate-45 border-l" />
         <a href="https://nextjs.org/" target="_blank" rel="noreferrer">
           <NextLogo />
         </a>
@@ -29,12 +29,7 @@ export default function Header() {
           Supabase
         </a>{" "}
         and{" "}
-        <a
-          href="https://nextjs.org/"
-          target="_blank"
-          className="font-bold hover:underline"
-          rel="noreferrer"
-        >
+        <a href="https://nextjs.org/" target="_blank" className="font-bold hover:underline" rel="noreferrer">
           Next.js
         </a>
       </p>
