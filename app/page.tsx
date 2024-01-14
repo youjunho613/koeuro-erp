@@ -5,6 +5,7 @@ import ConnectSupabaseSteps from "@/components/ConnectSupabaseSteps";
 import SignUpUserSteps from "@/components/SignUpUserSteps";
 import Header from "@/components/Header";
 import { cookies } from "next/headers";
+import Link from "next/link";
 
 export default async function Index() {
   const cookieStore = cookies();
@@ -28,6 +29,12 @@ export default async function Index() {
         <div className="flex items-center justify-between w-full max-w-4xl p-3 text-sm">
           <DeployButton />
           {isSupabaseConnected && <AuthButton />}
+          <Link
+            href="/warehousing"
+            className="flex px-3 py-2 no-underline rounded-md bg-btn-background hover:bg-btn-background-hover"
+          >
+            입고관리
+          </Link>
         </div>
       </nav>
 
