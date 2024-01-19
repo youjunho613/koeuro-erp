@@ -1,7 +1,18 @@
-export const navItems = [
+interface INavItems {
+  label: TLabel;
+  navList: INavItem[];
+}
+interface INavItem {
+  key: string;
+  label: string;
+  href: string;
+}
+export type TLabel = "물류" | "배송" | "인사";
+
+export const navItems: INavItems[] = [
   {
     label: "물류",
-    navItem: [
+    navList: [
       { key: "warehousing", label: "입고 조회", href: "/warehousing" },
       { key: "delivery", label: "출고 조회", href: "/delivery" },
       { key: "stock", label: "재고 조회", href: "/stock" },
@@ -21,14 +32,14 @@ export const navItems = [
   },
   {
     label: "배송",
-    navItem: [
+    navList: [
       { key: "undelivered", label: "미배송 현황", href: "/undelivered" },
       { key: "deliveryStatus", label: "입고 관리", href: "/delivery-status" },
     ],
   },
   {
     label: "인사",
-    navItem: [
+    navList: [
       { key: "attendance", label: "출결", href: "/attendance" },
       { key: "salary", label: "급여", href: "/salary" },
     ],
