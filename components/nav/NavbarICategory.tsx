@@ -1,15 +1,5 @@
 "use client";
 
-import {
-  NavbarContent,
-  NavbarItem,
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  Link,
-  Button,
-} from "@nextui-org/react";
 import { TLabel, navItems } from "./Nav.contant";
 import { useState } from "react";
 
@@ -27,50 +17,33 @@ export default function NavbarICategory() {
   };
 
   return (
-    <>
-      <ul className="flex items-center justify-center h-full gap-1 flex-nowrap">
-        {navItems.map((item) => (
-          <>
-            <button
-              onClick={() => {
-                onClickItem(item.label);
-              }}
+    <ul className="flex items-center justify-center h-full gap-4 flex-nowrap">
+      {navItems.map((item) => (
+        <button
+          key={item.label}
+          className="relative flex items-center justify-center px-4 py-2 rounded-lg hover:bg-gray-400 hover:text-white"
+          onClick={() => {
+            onClickItem(item.label);
+          }}
+        >
+          {item.label}
+          {currentItem === item.label && (
+            <li
+              key={item.label}
+              className="absolute flex flex-col w-32 gap-2 px-4 py-2 text-black -translate-x-1/2 translate-y-3 bg-white border rounded-lg cursor-default left-1/2 top-full"
             >
-              {item.label}
-            </button>
-            {currentItem === item.label && (
-              <li key={item.label} className="flex flex-col">
-                {item.label}
-                {item.navList.map((nav) => (
-                  <a href={nav.href}>{nav.label}</a>
-                ))}
-              </li>
-            )}
-          </>
-        ))}
-      </ul>
-      <NavbarContent className="hidden gap-4 sm:flex" justify="center">
-        {navItems.map((item) => (
-          <NavbarItem isActive key={item.label}>
-            <Dropdown>
-              <DropdownTrigger>
-                <Button variant="light" className="text-lg">
-                  {item.label}
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu items={item.navList}>
-                {(nav) => (
-                  <DropdownItem key={nav.key}>
-                    <Link href={nav.href} color="foreground">
-                      {nav.label}
-                    </Link>
-                  </DropdownItem>
-                )}
-              </DropdownMenu>
-            </Dropdown>
-          </NavbarItem>
-        ))}
-      </NavbarContent>
-    </>
+              {item.navList.map((nav) => (
+                <a
+                  href={nav.href}
+                  className="py-1 border-gray-200 cursor-pointer border-y hover:bg-slate-400 hover:text-white hover:rounded-md"
+                >
+                  {nav.label}
+                </a>
+              ))}
+            </li>
+          )}
+        </button>
+      ))}
+    </ul>
   );
 }
