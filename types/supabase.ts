@@ -4,79 +4,100 @@ export type Json =
   | boolean
   | null
   | { [key: string]: Json | undefined }
-  | Json[];
+  | Json[]
 
 export interface Database {
   public: {
     Tables: {
       notes: {
         Row: {
-          id: number;
-          title: string | null;
-        };
+          id: number
+          title: string | null
+        }
         Insert: {
-          id?: number;
-          title?: string | null;
-        };
+          id?: number
+          title?: string | null
+        }
         Update: {
-          id?: number;
-          title?: string | null;
-        };
-        Relationships: [];
-      };
+          id?: number
+          title?: string | null
+        }
+        Relationships: []
+      }
       products: {
         Row: {
-          barcode: number;
-          brandCode: string;
-          brandName: string;
-          created_at: string;
-          deliveryPrice: number;
-          id: number;
-          managerName: string;
-          managerNumber: number;
-          quantity: number;
-          supplyPrice: number;
-        };
+          barcode: number
+          brandCode: string
+          brandName: string
+          certificationNumber: string | null
+          color: string | null
+          countryOfManufacture: string | null
+          countryOfOrigin: string | null
+          created_at: string
+          deliveryPrice: number
+          englishName: string | null
+          koreaName: string | null
+          managerName: string
+          managerNumber: number
+          minimumAge: string | null
+          quantity: number
+          size: string | null
+          supplyPrice: number
+        }
         Insert: {
-          barcode: number;
-          brandCode: string;
-          brandName: string;
-          created_at?: string;
-          deliveryPrice?: number;
-          id?: number;
-          managerName: string;
-          managerNumber: number;
-          quantity?: number;
-          supplyPrice?: number;
-        };
+          barcode: number
+          brandCode: string
+          brandName: string
+          certificationNumber?: string | null
+          color?: string | null
+          countryOfManufacture?: string | null
+          countryOfOrigin?: string | null
+          created_at?: string
+          deliveryPrice?: number
+          englishName?: string | null
+          koreaName?: string | null
+          managerName: string
+          managerNumber: number
+          minimumAge?: string | null
+          quantity?: number
+          size?: string | null
+          supplyPrice?: number
+        }
         Update: {
-          barcode?: number;
-          brandCode?: string;
-          brandName?: string;
-          created_at?: string;
-          deliveryPrice?: number;
-          id?: number;
-          managerName?: string;
-          managerNumber?: number;
-          quantity?: number;
-          supplyPrice?: number;
-        };
-        Relationships: [];
-      };
-    };
+          barcode?: number
+          brandCode?: string
+          brandName?: string
+          certificationNumber?: string | null
+          color?: string | null
+          countryOfManufacture?: string | null
+          countryOfOrigin?: string | null
+          created_at?: string
+          deliveryPrice?: number
+          englishName?: string | null
+          koreaName?: string | null
+          managerName?: string
+          managerNumber?: number
+          minimumAge?: string | null
+          quantity?: number
+          size?: string | null
+          supplyPrice?: number
+        }
+        Relationships: []
+      }
+    }
     Views: {
-      [_ in never]: never;
-    };
+      [_ in never]: never
+    }
     Functions: {
-      [_ in never]: never;
-    };
+      [_ in never]: never
+    }
     Enums: {
-      [_ in never]: never;
-    };
+      [_ in never]: never
+    }
     CompositeTypes: {
-      [_ in never]: never;
-    };
-  };
+      [_ in never]: never
+    }
+  }
 }
 
 export type Tables<
@@ -90,7 +111,7 @@ export type Tables<
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-      Row: infer R;
+      Row: infer R
     }
     ? R
     : never
@@ -98,11 +119,11 @@ export type Tables<
       Database["public"]["Views"])
   ? (Database["public"]["Tables"] &
       Database["public"]["Views"])[PublicTableNameOrOptions] extends {
-      Row: infer R;
+      Row: infer R
     }
     ? R
     : never
-  : never;
+  : never
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
@@ -113,17 +134,17 @@ export type TablesInsert<
     : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I;
+      Insert: infer I
     }
     ? I
     : never
   : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
   ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
-      Insert: infer I;
+      Insert: infer I
     }
     ? I
     : never
-  : never;
+  : never
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
@@ -134,17 +155,17 @@ export type TablesUpdate<
     : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U;
+      Update: infer U
     }
     ? U
     : never
   : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
   ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
-      Update: infer U;
+      Update: infer U
     }
     ? U
     : never
-  : never;
+  : never
 
 export type Enums<
   PublicEnumNameOrOptions extends
@@ -157,5 +178,4 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
   ? Database["public"]["Enums"][PublicEnumNameOrOptions]
-  : never;
-
+  : never

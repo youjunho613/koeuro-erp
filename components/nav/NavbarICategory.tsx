@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { TLabel, navItems } from "./Nav.contant";
 import { useState } from "react";
 
@@ -44,6 +45,12 @@ export default function NavbarICategory() {
           )}
         </button>
       ))}
+      <Link
+        href={"/version"}
+        className="relative flex items-center justify-center px-4 py-2 rounded-lg hover:bg-gray-400 hover:text-white"
+      >
+        버전
+      </Link>
     </ul>
   );
 }

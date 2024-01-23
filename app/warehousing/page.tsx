@@ -10,7 +10,7 @@ export default async function Page() {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center w-full">
       <SubTitle innerText="입고 조회" />
       <SupplySearchForm />
       <div className="flex flex-col mx-auto my-10 w-9/10">
