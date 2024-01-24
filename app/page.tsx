@@ -1,11 +1,7 @@
-import DeployButton from "../components/DeployButton";
-import AuthButton from "../components/AuthButton";
 import { createClient } from "@/utils/supabase/server";
-import ConnectSupabaseSteps from "@/components/ConnectSupabaseSteps";
-import SignUpUserSteps from "@/components/SignUpUserSteps";
-import Header from "@/components/Header";
 import { cookies } from "next/headers";
-import Link from "next/link";
+import Footer from "@/components/footer/Footer";
+import SocialNav from "@/components/nav/SocialNav";
 
 export default async function Index() {
   const cookieStore = cookies();
@@ -25,40 +21,9 @@ export default async function Index() {
 
   return (
     <div className="flex flex-col items-center flex-1 w-full gap-20">
-      <nav className="flex justify-center w-full h-16 border-b border-b-foreground/10">
-        <div className="flex items-center justify-between w-full max-w-4xl p-3 text-sm">
-          <DeployButton />
-          {isSupabaseConnected && <AuthButton />}
-          <Link
-            href="/warehousing"
-            className="flex px-3 py-2 no-underline rounded-md bg-btn-background hover:bg-btn-background-hover"
-          >
-            입고관리
-          </Link>
-        </div>
-      </nav>
+      <SocialNav />
 
-      <div className="flex flex-col flex-1 max-w-4xl gap-20 px-3 opacity-0 animate-in">
-        <Header />
-        <main className="flex flex-col flex-1 gap-6">
-          <h2 className="mb-4 text-4xl font-bold">Next steps</h2>
-          {isSupabaseConnected ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
-        </main>
-      </div>
-
-      <footer className="flex justify-center w-full p-8 text-xs text-center border-t border-t-foreground/10">
-        <p>
-          Powered by{" "}
-          <a
-            href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-            target="_blank"
-            className="font-bold hover:underline"
-            rel="noreferrer"
-          >
-            Supabase
-          </a>
-        </p>
-      </footer>
+      <Footer />
     </div>
   );
 }
