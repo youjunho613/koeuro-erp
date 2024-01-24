@@ -3,13 +3,14 @@
 import SubTitle from "@/components/typography/SubTitle";
 import { Tables } from "@/types/supabase";
 import { supabase } from "@/utils/supabase/client";
+import { toastMessage } from "@/utils/toast/toastMessage";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function Page() {
   const [currentProduct, setCurrentProduct] = useState<Tables<"products"> | null>(null);
 
-  const { register, getValues, setValue, handleSubmit } = useForm<Tables<"products">>({
+  const { register, getValues, setValue, handleSubmit } = useForm<Tables<"receiving">>({
     defaultValues: { quantity: 0 },
   });
 
@@ -21,14 +22,20 @@ export default function Page() {
     setCurrentProduct(product);
   });
 
-  const supplyProduct = async () => {
-    if (getValues("barcode") === undefined) {
-      alert("바코드를 입력하세요");
+  const supplyProduct = handleSubmit(async (data) => {
+    if (getValues("barcode") === undefined || String(getValues("barcode")) === "") {
+      toastMessage("바코드를 입력하세요", "warn");
       return;
     }
     if (currentProduct === null) {
-      alert("해당하는 상품이 없습니다");
+      toastMessage("해당하는 상품이 없습니다", "warn");
       return;
+    }
+
+    const { barcode, quantity, receiving_date } = data;
+
+    if (quantity === 0) {
+      toastMessage("수량을 입력하세요", "warn");
     }
 
     await supabase
@@ -36,8 +43,11 @@ export default function Page() {
       .update({ quantity: currentProduct.quantity + getValues("quantity") })
       .eq("barcode", getValues("barcode"))
       .single();
-    alert("입고되었습니다");
-  };
+
+    await supabase.from("receiving").insert({ barcode, quantity, receiving_date });
+
+    toastMessage("입고되었습니다", "success");
+  });
 
   const onClickQuantity = (event: React.MouseEvent<HTMLButtonElement>) => {
     const { innerText } = event.currentTarget;
@@ -55,6 +65,9 @@ export default function Page() {
     }
     setValue("quantity", getValues("quantity") + 1);
   };
+  const datetime = new Date();
+  // datetime.setDate(datetime.getDate() + 3);
+  const todayDate = datetime.toISOString().substring(0, 10);
 
   return (
     <div className="flex flex-col items-center justify-center w-full">
@@ -115,6 +128,10 @@ export default function Page() {
             수량
             <input type="number" id="quantity" defaultValue={0} {...register("quantity")} />
           </label>
+          <label htmlFor="receiving_date" className="flex gap-2">
+            입고일
+            <input type="date" id="receiving_date" defaultValue={todayDate} {...register("receiving_date")} />
+          </label>
         </div>
         <div className="flex items-center justify-around">
           <div className="flex items-center justify-center gap-2 p-5 bg-white rounded-lg">
@@ -154,7 +171,6 @@ export default function Page() {
           <button type="reset">초기화</button>
         </div>
       </form>
-
       <table></table>
     </div>
   );

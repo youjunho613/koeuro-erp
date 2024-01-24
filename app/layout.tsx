@@ -2,6 +2,7 @@ import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import Nav from "@/components/nav/Nav";
 import { ReactNode } from "react";
+import Toast from "@/utils/toast/Toast";
 
 const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="bg-background text-foreground">
         <Nav />
         <main className="flex flex-col items-center min-h-screen">{children}</main>
+        <Toast/>
       </body>
     </html>
   );

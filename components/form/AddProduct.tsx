@@ -1,5 +1,6 @@
 import { Tables } from "@/types/supabase";
 import { supabase } from "@/utils/supabase/client";
+import { toastMessage } from "@/utils/toast/toastMessage";
 import { useForm } from "react-hook-form";
 
 interface IProductInput {
@@ -44,7 +45,7 @@ export default function AddProduct({ currentBrand, selectRef, brandData }: IProp
   const addProduct = handleSubmit(async (data) => {
     if (currentBrand === "" && selectRef.current !== null) {
       selectRef.current.focus();
-      alert("브랜드를 선택하세요");
+      toastMessage("브랜드를 선택하세요", "warn");
       return;
     }
 
@@ -61,9 +62,12 @@ export default function AddProduct({ currentBrand, selectRef, brandData }: IProp
       brandName,
     };
     const { error } = await supabase.from("products").insert([{ ...data, ...manager, ...brand, quantity: 0 }]);
-
-    if (error === null) alert("상품이 등록되었습니다");
-    if (error !== null) alert(error.message);
+    if (error === null) {
+      toastMessage("상품이 등록되었습니다", "success");
+    }
+    if (error !== null) {
+      toastMessage(error.message, "error");
+    }
   });
 
   return (

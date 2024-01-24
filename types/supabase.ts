@@ -78,6 +78,38 @@ export interface Database {
         };
         Relationships: [];
       };
+      receiving: {
+        Row: {
+          barcode: number;
+          created_at: string;
+          id: number;
+          quantity: number;
+          receiving_date: string;
+        };
+        Insert: {
+          barcode: number;
+          created_at?: string;
+          id?: number;
+          quantity: number;
+          receiving_date: string;
+        };
+        Update: {
+          barcode?: number;
+          created_at?: string;
+          id?: number;
+          quantity?: number;
+          receiving_date?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "receiving_barcode_fkey";
+            columns: ["barcode"];
+            isOneToOne: false;
+            referencedRelation: "products";
+            referencedColumns: ["barcode"];
+          },
+        ];
+      };
     };
     Views: {
       [_ in never]: never;

@@ -2,6 +2,7 @@ import { getKeyValue } from "@nextui-org/react";
 import { managementColumns } from "@/components/table/tableColumns";
 import { Tables } from "@/types/supabase";
 import { supabase } from "@/utils/supabase/client";
+import { toastMessage } from "@/utils/toast/toastMessage";
 
 interface IProps {
   productData: Tables<"products">[] | null;
@@ -12,7 +13,7 @@ export default function ProductTable({ productData }: IProps) {
     const { error } = await supabase.from("products").delete().eq("barcode", barcode);
 
     if (!!error) {
-      alert(error.message);
+      toastMessage(error.message, "error");
     }
   };
 
@@ -20,7 +21,7 @@ export default function ProductTable({ productData }: IProps) {
     const { data: currentProduct } = await supabase.from("products").select("*").eq("barcode", barcode).single();
 
     if (currentProduct === null) {
-      alert("해당하는 상품이 없습니다");
+      toastMessage("해당하는 상품이 없습니다", "warn");
       return;
     }
 

@@ -2,6 +2,7 @@ import { supabase } from "@/utils/supabase/client";
 import { useForm } from "react-hook-form";
 import { Tables, TablesUpdate } from "@/types/supabase";
 import { ChangeEventHandler, useEffect, useState } from "react";
+import { toastMessage } from "@/utils/toast/toastMessage";
 
 interface IProps {
   currentBrand: string;
@@ -50,7 +51,7 @@ export default function ModifyProduct({ brandData }: IProps) {
 
   const modifyProduct = handleSubmit(async (data) => {
     if (currentBrand === "" || currentBrand === undefined) {
-      alert("브랜드를 선택하세요");
+      toastMessage("브랜드를 선택하세요", "warn");
       return;
     }
     if (currentBarcode === undefined) return;
@@ -63,8 +64,12 @@ export default function ModifyProduct({ brandData }: IProps) {
       .eq("barcode", currentBarcode)
       .single();
 
-    if (error === null) alert("상품이 수정되었습니다");
-    if (error !== null) alert(error.message);
+    if (error === null) {
+      toastMessage("상품이 수정되었습니다", "success");
+    }
+    if (error !== null) {
+      toastMessage(error.message, "error");
+    }
   });
 
   return (
