@@ -3,9 +3,7 @@ import "./globals.css";
 import Nav from "@/components/nav/Nav";
 import { ReactNode } from "react";
 
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
@@ -18,9 +16,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="ko" className={GeistSans.className}>
       <body className="bg-background text-foreground">
         <Nav />
-        <main className="flex flex-col items-center min-h-screen">
-          {children}
-        </main>
+        <main className="flex flex-col items-center min-h-screen">{children}</main>
       </body>
     </html>
   );

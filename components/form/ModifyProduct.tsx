@@ -10,11 +10,8 @@ interface IProps {
 }
 
 export default function ModifyProduct({ brandData }: IProps) {
-  const [currentBarcode, setCurrentBarcode] = useState<number | undefined>(
-    undefined
-  );
-  const [currentProduct, setCurrentProduct] =
-    useState<Tables<"products"> | null>(null);
+  const [currentBarcode, setCurrentBarcode] = useState<number | undefined>(undefined);
+  const [currentProduct, setCurrentProduct] = useState<Tables<"products"> | null>(null);
   console.log("currentProduct :", currentProduct);
 
   const { register, handleSubmit } = useForm<TablesUpdate<"products">>({
@@ -37,11 +34,7 @@ export default function ModifyProduct({ brandData }: IProps) {
   const fetchProduct = async (barcode: number | undefined) => {
     if (barcode === undefined) return;
 
-    const { data } = await supabase
-      .from("products")
-      .select("*")
-      .eq("barcode", barcode)
-      .single();
+    const { data } = await supabase.from("products").select("*").eq("barcode", barcode).single();
 
     setCurrentProduct(data);
   };
@@ -64,9 +57,7 @@ export default function ModifyProduct({ brandData }: IProps) {
     }
     if (currentBarcode === undefined) return;
 
-    const brandName = brandData.find(
-      (brand) => brand.brandCode === currentBrand
-    )?.brandName;
+    const brandName = brandData.find((brand) => brand.brandCode === currentBrand)?.brandName;
 
     const { error } = await supabase
       .from("products")
@@ -86,10 +77,7 @@ export default function ModifyProduct({ brandData }: IProps) {
         }}
         className="flex items-center justify-around w-full gap-2 my-4"
       >
-        <label
-          className="flex justify-between w-full h-10 gap-2 px-3 py-2 rounded-lg bg-zinc-300"
-          htmlFor="barcode"
-        >
+        <label className="flex justify-between w-full h-10 gap-2 px-3 py-2 rounded-lg bg-zinc-300" htmlFor="barcode">
           제품 바코드
           <input
             type="number"
@@ -113,10 +101,7 @@ export default function ModifyProduct({ brandData }: IProps) {
         </button>
       </form>
       {currentProduct !== null && (
-        <form
-          onSubmit={modifyProduct}
-          className="flex flex-col gap-4 p-10 border bg-default-200 rounded-xl"
-        >
+        <form onSubmit={modifyProduct} className="flex flex-col gap-4 p-10 border bg-default-200 rounded-xl">
           <select
             className="mx-10"
             name="brandSelect"
@@ -134,122 +119,59 @@ export default function ModifyProduct({ brandData }: IProps) {
             ))}
           </select>
           <div className="flex justify-between w-full gap-4 py-2 border-b border-black">
-            <label
-              className="flex justify-between w-full gap-2 px-3 py-2"
-              htmlFor="koreaName"
-            >
+            <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="koreaName">
               제품명
               <input type="text" id="koreaName" {...register("koreaName")} />
             </label>
-            <label
-              className="flex justify-between w-full gap-2 px-3 py-2"
-              htmlFor="englishName"
-            >
+            <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="englishName">
               영문명
-              <input
-                type="text"
-                id="englishName"
-                {...register("englishName")}
-              />
+              <input type="text" id="englishName" {...register("englishName")} />
             </label>
           </div>
           <div className="flex justify-between w-full gap-4 py-2 border-b border-black">
-            <label
-              className="flex justify-between w-full gap-2 px-3 py-2"
-              htmlFor="color"
-            >
+            <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="color">
               색상
               <input type="text" id="color" {...register("color")} />
             </label>
-            <label
-              className="flex justify-between w-full gap-2 px-3 py-2"
-              htmlFor="size"
-            >
+            <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="size">
               크기
               <input type="text" id="size" {...register("size")} />
             </label>
           </div>
           <div className="flex justify-between w-full gap-4 py-2 border-b border-black">
-            <label
-              className="flex justify-between w-full gap-2 px-3 py-2"
-              htmlFor="countryOfOrigin"
-            >
+            <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="countryOfOrigin">
               원산지
-              <input
-                type="text"
-                id="countryOfOrigin"
-                {...register("countryOfOrigin")}
-              />
+              <input type="text" id="countryOfOrigin" {...register("countryOfOrigin")} />
             </label>
-            <label
-              className="flex justify-between w-full gap-2 px-3 py-2"
-              htmlFor="countryOfManufacture"
-            >
+            <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="countryOfManufacture">
               제조국
-              <input
-                type="text"
-                id="countryOfManufacture"
-                {...register("countryOfManufacture")}
-              />
+              <input type="text" id="countryOfManufacture" {...register("countryOfManufacture")} />
             </label>
           </div>
           <div className="flex justify-between w-full gap-4 py-2 border-b border-black">
-            <label
-              className="flex justify-between w-full gap-2 px-3 py-2"
-              htmlFor="certificationNumber"
-            >
+            <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="certificationNumber">
               인증번호
-              <input
-                type="text"
-                id="certificationNumber"
-                {...register("certificationNumber")}
-              />
+              <input type="text" id="certificationNumber" {...register("certificationNumber")} />
             </label>
-            <label
-              className="flex justify-between w-full gap-2 px-3 py-2"
-              htmlFor="minimumAge"
-            >
+            <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="minimumAge">
               사용연령
               <input type="text" id="minimumAge" {...register("minimumAge")} />
             </label>
           </div>
           <div className="flex justify-between w-full gap-4 py-2 border-b border-black">
-            <label
-              className="flex justify-between w-full gap-2 px-3 py-2"
-              htmlFor="supplyPrice"
-            >
+            <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="supplyPrice">
               입고가
-              <input
-                className="text-right"
-                type="number"
-                id="supplyPrice"
-                {...register("supplyPrice")}
-              />
+              <input className="text-right" type="number" id="supplyPrice" {...register("supplyPrice")} />
             </label>
-            <label
-              className="flex justify-between w-full gap-2 px-3 py-2"
-              htmlFor="deliveryPrice"
-            >
+            <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="deliveryPrice">
               판매가
-              <input
-                className="text-right"
-                type="number"
-                id="deliveryPrice"
-                {...register("deliveryPrice")}
-              />
+              <input className="text-right" type="number" id="deliveryPrice" {...register("deliveryPrice")} />
             </label>
           </div>
-          <button
-            type="button"
-            onClick={modifyProduct}
-            className="px-3 py-2 rounded-lg bg-cyan-300 text-small"
-          >
+          <button type="button" onClick={modifyProduct} className="px-3 py-2 rounded-lg bg-cyan-300 text-small">
             수정
           </button>
-          <button
-            type="reset"
-            className="px-3 py-2 rounded-lg bg-rose-300 text-small"
-          >
+          <button type="reset" className="px-3 py-2 rounded-lg bg-rose-300 text-small">
             초기화
           </button>
         </form>

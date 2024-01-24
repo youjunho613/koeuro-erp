@@ -28,9 +28,7 @@ export type TTab =
 export default function Page() {
   const [currentBrand, setCurrentBrand] = useState("");
   const [currentTab, setCurrentTab] = useState<TTab>("");
-  const [productData, setProductData] = useState<Tables<"products">[] | null>(
-    null
-  );
+  const [productData, setProductData] = useState<Tables<"products">[] | null>(null);
 
   const selectRef = useRef<HTMLSelectElement>(null);
 
@@ -53,10 +51,7 @@ export default function Page() {
       return;
     }
 
-    const { data } = await supabase
-      .from("products")
-      .select("*")
-      .eq("brandCode", currentBrand);
+    const { data } = await supabase.from("products").select("*").eq("brandCode", currentBrand);
 
     setProductData(data);
   };
@@ -85,10 +80,7 @@ export default function Page() {
               </option>
             ))}
           </select>
-          <ProductManagementTab
-            currentTab={currentTab}
-            onChangeTab={onChangeTab}
-          />
+          <ProductManagementTab currentTab={currentTab} onChangeTab={onChangeTab} />
         </div>
         {currentTab === "filtering" && (
           <div>
@@ -96,18 +88,10 @@ export default function Page() {
           </div>
         )}
         {currentTab === "addProduct" && (
-          <AddProduct
-            brandData={brandData}
-            currentBrand={currentBrand}
-            selectRef={selectRef}
-          />
+          <AddProduct brandData={brandData} currentBrand={currentBrand} selectRef={selectRef} />
         )}
         {currentTab === "modifyProduct" && (
-          <ModifyProduct
-            brandData={brandData}
-            currentBrand={currentBrand}
-            selectRef={selectRef}
-          />
+          <ModifyProduct brandData={brandData} currentBrand={currentBrand} selectRef={selectRef} />
         )}
         {currentTab === "addBrand" && (
           <div>

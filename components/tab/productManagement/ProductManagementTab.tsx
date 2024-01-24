@@ -5,10 +5,7 @@ interface IProps {
   onChangeTab: (target: TTab) => void;
 }
 
-export default function ProductManagementTab({
-  currentTab,
-  onChangeTab,
-}: IProps) {
+export default function ProductManagementTab({ currentTab, onChangeTab }: IProps) {
   const managementTabs: { key: TTab; label: string }[] = [
     { key: "filtering", label: "조건검색" },
     { key: "addProduct", label: "상품등록" },

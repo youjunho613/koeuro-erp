@@ -22,11 +22,7 @@ interface IProps {
   brandData: { id: number; brandName: string; brandCode: string }[];
 }
 
-export default function AddProduct({
-  currentBrand,
-  selectRef,
-  brandData,
-}: IProps) {
+export default function AddProduct({ currentBrand, selectRef, brandData }: IProps) {
   const { register, handleSubmit, setFocus } = useForm<Tables<"products">>();
 
   const handleOnKeyDown = ({
@@ -53,9 +49,7 @@ export default function AddProduct({
       return;
     }
 
-    const brandName = brandData.find(
-      (brand) => brand.brandCode === currentBrand
-    )?.brandName;
+    const brandName = brandData.find((brand) => brand.brandCode === currentBrand)?.brandName;
 
     if (brandName === undefined) return;
 
@@ -73,9 +67,7 @@ export default function AddProduct({
       ...brand,
       quantity: 0,
     });
-    const { error } = await supabase
-      .from("products")
-      .insert([{ ...data, ...manager, ...brand, quantity: 0 }]);
+    const { error } = await supabase.from("products").insert([{ ...data, ...manager, ...brand, quantity: 0 }]);
 
     if (error === null) alert("상품이 등록되었습니다");
     if (error !== null) alert(error.message);
@@ -152,10 +144,7 @@ export default function AddProduct({
           {...register("countryOfOrigin")}
         />
       </label>
-      <label
-        className="flex justify-between gap-2"
-        htmlFor="countryOfManufacture"
-      >
+      <label className="flex justify-between gap-2" htmlFor="countryOfManufacture">
         제조국
         <input
           type="text"
@@ -166,10 +155,7 @@ export default function AddProduct({
           {...register("countryOfManufacture")}
         />
       </label>
-      <label
-        className="flex justify-between gap-2"
-        htmlFor="certificationNumber"
-      >
+      <label className="flex justify-between gap-2" htmlFor="certificationNumber">
         인증번호
         <input
           type="text"

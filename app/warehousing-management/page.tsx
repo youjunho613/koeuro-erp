@@ -7,13 +7,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function Page() {
-  const [currentProduct, setCurrentProduct] =
-    useState<Tables<"products"> | null>(null);
-  console.log("currentProduct :", currentProduct);
+  const [currentProduct, setCurrentProduct] = useState<Tables<"products"> | null>(null);
 
-  const { register, getValues, setValue, handleSubmit } = useForm<
-    Tables<"products">
-  >({
+  const { register, getValues, setValue, handleSubmit } = useForm<Tables<"products">>({
     defaultValues: { quantity: 0 },
   });
 
@@ -22,11 +18,7 @@ export default function Page() {
 
     const { barcode } = data;
 
-    const { data: product, error } = await supabase
-      .from("products")
-      .select("*")
-      .eq("barcode", barcode)
-      .single();
+    const { data: product, error } = await supabase.from("products").select("*").eq("barcode", barcode).single();
 
     setCurrentProduct(product);
   });
@@ -123,12 +115,7 @@ export default function Page() {
           </label>
           <label htmlFor="quantity" className="flex gap-2">
             수량
-            <input
-              type="number"
-              id="quantity"
-              defaultValue={0}
-              {...register("quantity")}
-            />
+            <input type="number" id="quantity" defaultValue={0} {...register("quantity")} />
           </label>
         </div>
         <div className="flex items-center justify-around">

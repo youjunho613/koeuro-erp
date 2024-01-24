@@ -9,10 +9,7 @@ interface IProps {
 
 export default function ProductTable({ productData }: IProps) {
   const deleteProduct = async (barcode: number) => {
-    const { error } = await supabase
-      .from("products")
-      .delete()
-      .eq("barcode", barcode);
+    const { error } = await supabase.from("products").delete().eq("barcode", barcode);
 
     if (!!error) {
       alert(error.message);
@@ -20,21 +17,14 @@ export default function ProductTable({ productData }: IProps) {
   };
 
   const onDelete = async (barcode: number) => {
-    const { data: currentProduct } = await supabase
-      .from("products")
-      .select("*")
-      .eq("barcode", barcode)
-      .single();
+    const { data: currentProduct } = await supabase.from("products").select("*").eq("barcode", barcode).single();
 
     if (currentProduct === null) {
       alert("해당하는 상품이 없습니다");
       return;
     }
 
-    if (
-      currentProduct.quantity !== 0 &&
-      !confirm("재고가 있는 상품입니다 삭제하시겠습니까?")
-    ) {
+    if (currentProduct.quantity !== 0 && !confirm("재고가 있는 상품입니다 삭제하시겠습니까?")) {
       return;
     }
 
@@ -62,10 +52,7 @@ export default function ProductTable({ productData }: IProps) {
           {productData.map((product) => (
             <tr key={product.barcode} className="outline-none">
               {managementColumns.map((column) => (
-                <td
-                  key={column.key}
-                  className="px-3 py-2 font-normal align-middle outline-none text-small"
-                >
+                <td key={column.key} className="px-3 py-2 font-normal align-middle outline-none text-small">
                   {getKeyValue(product, column.key)}
                 </td>
               ))}

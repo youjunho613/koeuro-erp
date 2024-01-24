@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  getKeyValue,
-} from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue } from "@nextui-org/react";
 import { supplyColumns } from "./tableColumns";
 
 export default function SupplyTable() {
@@ -46,11 +38,7 @@ export default function SupplyTable() {
       </TableHeader>
       <TableBody items={data}>
         {(item) => (
-          <TableRow key={item.id}>
-            {(columnsKey) => (
-              <TableCell>{getKeyValue(item, columnsKey)}</TableCell>
-            )}
-          </TableRow>
+          <TableRow key={item.id}>{(columnsKey) => <TableCell>{getKeyValue(item, columnsKey)}</TableCell>}</TableRow>
         )}
       </TableBody>
     </Table>
