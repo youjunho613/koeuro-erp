@@ -35,6 +35,7 @@ export default function NavbarICategory() {
             >
               {item.navList.map((nav) => (
                 <a
+                  key={nav.label}
                   href={nav.href}
                   className="py-1 border-gray-200 cursor-pointer border-y hover:bg-slate-400 hover:text-white hover:rounded-md"
                 >
