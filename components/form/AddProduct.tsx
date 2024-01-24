@@ -42,7 +42,6 @@ export default function AddProduct({ currentBrand, selectRef, brandData }: IProp
   };
 
   const addProduct = handleSubmit(async (data) => {
-    console.log("data :", data);
     if (currentBrand === "" && selectRef.current !== null) {
       selectRef.current.focus();
       alert("브랜드를 선택하세요");
@@ -61,12 +60,6 @@ export default function AddProduct({ currentBrand, selectRef, brandData }: IProp
       brandCode: currentBrand,
       brandName,
     };
-    console.log("{ ...data, ...manager, ...brand, quantity: 0 } :", {
-      ...data,
-      ...manager,
-      ...brand,
-      quantity: 0,
-    });
     const { error } = await supabase.from("products").insert([{ ...data, ...manager, ...brand, quantity: 0 }]);
 
     if (error === null) alert("상품이 등록되었습니다");

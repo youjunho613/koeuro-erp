@@ -12,7 +12,6 @@ interface IProps {
 export default function ModifyProduct({ brandData }: IProps) {
   const [currentBarcode, setCurrentBarcode] = useState<number | undefined>(undefined);
   const [currentProduct, setCurrentProduct] = useState<Tables<"products"> | null>(null);
-  console.log("currentProduct :", currentProduct);
 
   const { register, handleSubmit } = useForm<TablesUpdate<"products">>({
     values: {
@@ -40,7 +39,6 @@ export default function ModifyProduct({ brandData }: IProps) {
   };
 
   const [currentBrand, setCurrentBrand] = useState(currentProduct?.brandCode);
-  console.log("currentBrand :", currentBrand);
 
   const onChangeBrand: ChangeEventHandler<HTMLSelectElement> = (event) => {
     setCurrentBrand(event.target.value);

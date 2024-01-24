@@ -14,8 +14,6 @@ export default function Page() {
   });
 
   const fetchProduct = handleSubmit(async (data) => {
-    console.log("실행");
-
     const { barcode } = data;
 
     const { data: product, error } = await supabase.from("products").select("*").eq("barcode", barcode).single();
