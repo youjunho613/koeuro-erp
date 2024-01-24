@@ -4,7 +4,7 @@ interface Props {
 
 export default function SubTitle({ innerText }: Props) {
   return (
-    <h2 className="flex items-center justify-center w-full h-16 text-3xl text-white bg-gradient-to-br from-indigo-500 to-pink-500 shadow-pink-500/30">
+    <h2 className="w-full h-16 text-3xl font-bold text-white flex-center bg-gradient-to-br from-slate-300 to-slate-600">
       {innerText}
     </h2>
   );

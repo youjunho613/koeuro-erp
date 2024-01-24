@@ -30,9 +30,95 @@
   * {
     @apply border-foreground/20;
   }
+  .flex-col-center {
+    @apply flex flex-col items-center justify-center;
+  }
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
 }
 
 @layer components {
+  .table-base {
+    @apply flex justify-between w-full gap-4 p-4 bg-white rounded-lg shadow-small;
+  }
+  .table {
+    @apply w-full h-auto min-w-full table-auto;
+  }
+  .table-error {
+    @apply flex justify-between w-full gap-4 p-4 bg-white rounded-lg shadow-small;
+  }
+  .table-error p {
+    @apply flex items-center justify-center w-full h-10 px-3 font-semibold rounded-lg text-foreground-500 text-medium bg-default-100;
+  }
+
+  .table > thead > tr {
+    @apply rounded-lg outline-none;
+  }
+  .table > thead > tr th {
+    @apply h-10 px-3 font-semibold text-left text-foreground-500 text-tiny bg-default-100 first:rounded-l-lg last:rounded-r-lg;
+  }
+  .table > tbody > tr {
+    @apply border-b outline-none hover:bg-slate-100;
+  }
+  .table > tbody > tr td {
+    @apply px-3 py-2 font-normal align-middle outline-none text-small;
+  }
+
+  .button {
+    @apply flex items-center justify-center;
+  }
+  .small-button {
+    @apply h-12 gap-3 px-6 font-semibold rounded-lg button;
+  }
+
+  .success-button {
+    @apply bg-blue-300 text-slate-800 success-button-hover success-button-focus;
+  }
+  .success-button-hover {
+    @apply hover:bg-blue-500 hover:text-white;
+  }
+  .success-button-focus {
+    @apply focus-visible:outline-2 focus-visible:outline-blue-900 focus-visible:outline-offset-2;
+  }
+  .warning-button {
+    @apply text-slate-800 bg-amber-300 warning-button-hover warning-button-focus;
+  }
+  .warning-button-hover {
+    @apply hover:bg-amber-500 hover:text-white;
+  }
+  .warning-button-focus {
+    @apply focus-visible:outline-2 focus-visible:outline-amber-900 focus-visible:outline-offset-2;
+  }
+  .delete-button {
+    @apply text-slate-800 bg-rose-300 delete-button-hover delete-button-focus;
+  }
+  .delete-button-hover {
+    @apply hover:bg-rose-500 hover:text-white;
+  }
+  .delete-button-focus {
+    @apply focus-visible:outline-2 focus-visible:outline-rose-900 focus-visible:outline-offset-2;
+  }
+
+  .form {
+    @apply relative flex flex-col flex-wrap gap-5 p-5 mx-auto my-10 rounded-2xl bg-slate-200 w-9/10;
+  }
+  .label {
+    @apply flex items-center justify-between gap-2;
+  }
+  .label input {
+    @apply px-2 py-1 text-black border bg-slate-100 border-slate-300 input-hover input-focus input-disabled;
+  }
+  .input-hover {
+    @apply hover:bg-slate-200;
+  }
+  .input-focus {
+    @apply focus-visible:outline-offset-2 focus-visible:outline-1 focus-visible:outline-slate-600;
+  }
+  .input-disabled {
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
   .supply-search-input-box {
     @apply flex flex-col w-1/4;
   }

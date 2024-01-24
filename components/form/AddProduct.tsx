@@ -72,7 +72,7 @@ export default function AddProduct({ currentBrand, selectRef, brandData }: IProp
 
   return (
     <form onSubmit={addProduct} className="flex flex-col gap-4 p-10 border">
-      <label className="flex justify-between gap-2" htmlFor="barcode">
+      <label className="label" htmlFor="barcode">
         제품 바코드
         <p className="text-red-500">(필수)</p>
         <input
@@ -86,7 +86,7 @@ export default function AddProduct({ currentBrand, selectRef, brandData }: IProp
           {...register("barcode")}
         />
       </label>
-      <label className="flex justify-between gap-2" htmlFor="koreaName">
+      <label className="label" htmlFor="koreaName">
         제품명
         <input
           type="text"
@@ -97,7 +97,7 @@ export default function AddProduct({ currentBrand, selectRef, brandData }: IProp
           {...register("koreaName")}
         />
       </label>
-      <label className="flex justify-between gap-2" htmlFor="englishName">
+      <label className="label" htmlFor="englishName">
         영문 제품명
         <input
           type="text"
@@ -108,7 +108,7 @@ export default function AddProduct({ currentBrand, selectRef, brandData }: IProp
           {...register("englishName")}
         />
       </label>
-      <label className="flex justify-between gap-2" htmlFor="color">
+      <label className="label" htmlFor="color">
         색상
         <input
           type="text"
@@ -119,7 +119,7 @@ export default function AddProduct({ currentBrand, selectRef, brandData }: IProp
           {...register("color")}
         />
       </label>
-      <label className="flex justify-between gap-2" htmlFor="size">
+      <label className="label" htmlFor="size">
         크기
         <input
           type="text"
@@ -130,7 +130,7 @@ export default function AddProduct({ currentBrand, selectRef, brandData }: IProp
           {...register("size")}
         />
       </label>
-      <label className="flex justify-between gap-2" htmlFor="countryOfOrigin">
+      <label className="label" htmlFor="countryOfOrigin">
         원산지
         <input
           type="text"
@@ -141,7 +141,7 @@ export default function AddProduct({ currentBrand, selectRef, brandData }: IProp
           {...register("countryOfOrigin")}
         />
       </label>
-      <label className="flex justify-between gap-2" htmlFor="countryOfManufacture">
+      <label className="label" htmlFor="countryOfManufacture">
         제조국
         <input
           type="text"
@@ -152,7 +152,7 @@ export default function AddProduct({ currentBrand, selectRef, brandData }: IProp
           {...register("countryOfManufacture")}
         />
       </label>
-      <label className="flex justify-between gap-2" htmlFor="certificationNumber">
+      <label className="label" htmlFor="certificationNumber">
         인증번호
         <input
           type="text"
@@ -163,7 +163,7 @@ export default function AddProduct({ currentBrand, selectRef, brandData }: IProp
           {...register("certificationNumber")}
         />
       </label>
-      <label className="flex justify-between gap-2" htmlFor="minimumAge">
+      <label className="label" htmlFor="minimumAge">
         사용연령
         <input
           type="text"
@@ -174,7 +174,7 @@ export default function AddProduct({ currentBrand, selectRef, brandData }: IProp
           {...register("minimumAge")}
         />
       </label>
-      <label className="flex justify-between gap-2" htmlFor="supplyPrice">
+      <label className="label" htmlFor="supplyPrice">
         입고가
         <input
           className="text-right"
@@ -187,7 +187,7 @@ export default function AddProduct({ currentBrand, selectRef, brandData }: IProp
           {...register("supplyPrice")}
         />
       </label>
-      <label className="flex justify-between gap-2" htmlFor="deliveryPrice">
+      <label className="label" htmlFor="deliveryPrice">
         판매가
         <input
           className="text-right"

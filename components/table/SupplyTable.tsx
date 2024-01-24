@@ -1,46 +1,47 @@
-"use client";
-
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue } from "@nextui-org/react";
+import { getKeyValue } from "@nextui-org/react";
 import { supplyColumns } from "./tableColumns";
+import TableError from "./TableError";
+import { deleteSupply } from "@/app/api/supply";
+import { TSupply } from "@/app/warehousing/page";
 
-export default function SupplyTable() {
-  const data = [
-    {
-      id: 1,
-      date: "2024/01/02",
-      brandName: "부코스키",
-      brandCode: "bukowski",
-      managerName: "홍길동",
-      managerNumber: 125,
-      barcode: 123456789012,
-      quantity: 20,
-      supplyPrice: 50000,
-      deliveryPrice: 60000,
-    },
-    {
-      id: 2,
-      date: "2024/01/03",
-      brandName: "부코스키",
-      brandCode: "bukowski",
-      managerName: "홍길동",
-      managerNumber: 125,
-      barcode: 123456789013,
-      quantity: 15,
-      supplyPrice: 45000,
-      deliveryPrice: 50000,
-    },
-  ];
+interface IProps {
+  supplyList: TSupply;
+}
+
+export default function SupplyTable({ supplyList }: IProps) {
+  if (supplyList === null) return <TableError />;
 
   return (
-    <Table>
-      <TableHeader columns={supplyColumns}>
-        {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
-      </TableHeader>
-      <TableBody items={data}>
-        {(item) => (
-          <TableRow key={item.id}>{(columnsKey) => <TableCell>{getKeyValue(item, columnsKey)}</TableCell>}</TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <div className="table-base">
+      <table className="table">
+        <thead>
+          <tr>
+            {supplyColumns.map((column) => (
+              <th key={column.key}>{column.label}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {supplyList.map((supply) => (
+            <tr key={supply.id}>
+              {supplyColumns.map((column) => {
+                const currentSupply = { ...supply, ...supply.products, products: undefined };
+                return <td key={column.key}>{getKeyValue(currentSupply, column.key)}</td>;
+              })}
+              <td className="flex items-center justify-center">
+                <button
+                  onClick={() => {
+                    deleteSupply(supply.id);
+                  }}
+                  className="h-auto m-1 delete-button small-button"
+                >
+                  삭제
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
