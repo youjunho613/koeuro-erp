@@ -1,122 +1,110 @@
 "use client";
 
+import { getSupply } from "@/app/api/supply";
+import { ISearchInput, TSupply } from "@/app/warehousing/page";
 import { useState } from "react";
-import { Input, Button } from "@nextui-org/react";
+import type { Dispatch, SetStateAction } from "react";
+import { useForm } from "react-hook-form";
 
-export default function SupplySearchForm() {
+interface IProps {
+  setSupplyList: Dispatch<SetStateAction<TSupply>>;
+}
+
+export default function SupplySearchForm({ setSupplyList }: IProps) {
   const [isShowForm, setIsShowForm] = useState(false);
 
   const onChangeFormShow = () => {
     setIsShowForm(!isShowForm);
   };
 
+  const { register, handleSubmit, reset } = useForm<ISearchInput>();
+
+  const resetProduct = async () => {
+    const supplyList = await getSupply();
+    setSupplyList(supplyList);
+    reset();
+  };
+
+  const searchProduct = handleSubmit(async (data) => {
+    const supplyList = await getSupply();
+    if (supplyList === null) return;
+
+    const filteredBarcode =
+      data.barcode !== "" ? supplyList.filter((supply) => String(supply.barcode) === data.barcode) : supplyList;
+
+    const filteredStartDate =
+      data.start_date !== ""
+        ? filteredBarcode.filter((supply) => supply.receiving_date >= data.start_date)
+        : filteredBarcode;
+
+    const filteredEndDate =
+      data.end_date !== ""
+        ? filteredStartDate.filter((supply) => supply.receiving_date <= data.end_date)
+        : filteredStartDate;
+
+    const filteredBrandName =
+      data.brandName !== ""
+        ? filteredEndDate.filter((supply) => supply.products?.brandName.includes(data.brandName))
+        : filteredEndDate;
+
+    const filteredBrandCode =
+      data.brandCode !== ""
+        ? filteredBrandName.filter((supply) => supply.products?.brandCode.includes(data.brandCode))
+        : filteredBrandName;
+
+    setSupplyList(filteredBrandCode);
+  });
+
   return (
     <>
       {!isShowForm && (
-        <form action="" className="relative flex flex-wrap gap-5 p-5 mx-auto my-10 border w-9/10">
-          <div className="flex items-center justify-center w-1/4 gap-1">
-            <Input
-              type="date"
-              color="primary"
-              label="입고일자"
-              labelPlacement="outside-left"
-              classNames={{ label: "text-xs" }}
-            />
-            ~
-            <Input type="date" color="primary" labelPlacement="outside-left" />
-          </div>
-          <Input
-            type="text"
-            color="primary"
-            label="브랜드"
-            labelPlacement="outside-left"
-            className="flex items-center justify-center w-1/4"
-          />
-          <Input
-            type="text"
-            color="primary"
-            label="브랜드 코드"
-            labelPlacement="outside-left"
-            className="flex items-center justify-center w-1/4"
-          />
-          <Input
-            type="text"
-            color="primary"
-            label="담당자"
-            labelPlacement="outside-left"
-            className="flex items-center justify-center w-1/4"
-          />
-          <Input
-            type="text"
-            color="primary"
-            label="담당자 사번"
-            labelPlacement="outside-left"
-            className="flex items-center justify-center w-1/4"
-          />
-          <Input
-            type="text"
-            color="primary"
-            label="제품 바코드"
-            labelPlacement="outside-left"
-            className="flex items-center justify-center w-1/4"
-          />
-          <Input
-            type="text"
-            color="primary"
-            label="입고 수량"
-            labelPlacement="outside-left"
-            className="flex items-center justify-center w-1/4"
-          />
-          <div className="flex items-center justify-center w-1/4 gap-1">
-            <Input
-              type="number"
-              color="primary"
-              label="입고가"
-              labelPlacement="outside-left"
-              classNames={{ base: "w-auto", input: "w-20" }}
-            />
-            ~
-            <Input
-              type="number"
-              color="primary"
-              labelPlacement="outside-left"
-              classNames={{ base: "w-auto", input: "w-20" }}
-            />
-          </div>
-
-          <div className="flex items-center justify-center w-1/4 gap-1">
-            <Input
-              type="number"
-              color="primary"
-              label="판매가"
-              labelPlacement="outside-left"
-              classNames={{ base: "w-auto", input: "w-20" }}
-            />
-            ~
-            <Input
-              type="number"
-              color="primary"
-              labelPlacement="outside-left"
-              classNames={{ base: "w-auto", input: "w-20" }}
-            />
-          </div>
-
-          <Button color="primary" size="lg">
-            조회
-          </Button>
-          <Button color="danger" variant="ghost" size="lg" type="reset">
-            입력 초기화
-          </Button>
-          <button className="absolute bottom-0 right-0 m-2" type="button" onClick={onChangeFormShow}>
-            최소화
-          </button>
-        </form>
-      )}
-
-      {isShowForm && (
-        <button className="flex justify-center p-5 mx-auto my-10 border w-9/10" onClick={onChangeFormShow}>
+        <button className="p-5 my-10 w-9/10 button warning-button" onClick={onChangeFormShow}>
           검색 조건 열기
         </button>
+      )}
+      {isShowForm && (
+        <form onSubmit={searchProduct} className="form">
+          <div className="flex flex-wrap items-center justify-around gap-5">
+            <label htmlFor="start_date" className="label">
+              입고일자
+              <input type="date" id="start_date" {...register("start_date")} />~
+              <input type="date" id="end_date" {...register("end_date")} />
+            </label>
+            <label htmlFor="brandName" className="label">
+              브랜드
+              <input type="text" id="brandName" {...register("brandName")} />
+            </label>
+            <label htmlFor="brandCode" className="label">
+              브랜드 코드
+              <input type="text" id="brandCode" {...register("brandCode")} />
+            </label>
+            <label htmlFor="barcode" className="label">
+              바코드
+              <input type="text" id="barcode" {...register("barcode")} />
+            </label>
+            <label htmlFor="" className="label">
+              입고수량
+              <input type="number" id="" {...register("minQuantity")} />
+              ~
+              <input type="text" id="" {...register("maxQuantity")} />
+            </label>
+          </div>
+          <div className="flex items-center justify-around">
+            <button onClick={searchProduct} type="button" className="success-button small-button">
+              조회
+            </button>
+            <button onClick={resetProduct} type="button" className="delete-button small-button">
+              검색 초기화
+            </button>
+          </div>
+          <button
+            className="absolute top-0 right-0 m-2 small-button delete-button"
+            type="button"
+            onClick={onChangeFormShow}
+          >
+            X
+          </button>
+        </form>
       )}
     </>
   );
