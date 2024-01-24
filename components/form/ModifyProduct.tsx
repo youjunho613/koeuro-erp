@@ -94,6 +94,7 @@ export default function ModifyProduct({ brandData }: IProps) {
           <input
             type="number"
             id="barcode"
+            autoComplete="off"
             autoFocus
             value={currentBarcode}
             onChange={(event) => {

@@ -89,6 +89,7 @@ export default function AddProduct({
         <input
           type="number"
           id="barcode"
+          autoComplete="off"
           autoFocus
           onKeyDown={(event) => {
             handleOnKeyDown({ event, target: "koreaName" });
