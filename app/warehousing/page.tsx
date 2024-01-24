@@ -1,21 +1,47 @@
+"use client";
+
 import SupplySearchForm from "@/components/form/SupplySearchForm";
-import SortSelect from "@/components/select/SortSelect";
 import SupplyTable from "@/components/table/SupplyTable";
 import SubTitle from "@/components/typography/SubTitle";
+import { useEffect, useState } from "react";
+import { getSupply } from "../api/supply";
+import { Tables } from "@/types/supabase";
 
-export default async function Page() {
-  const sortContent = [
-    { key: "latest", label: "최신순", value: "latest" },
-    { key: "oldest", label: "오래된순", value: "oldest" },
-  ];
+export interface ISearchInput {
+  barcode: string;
+  start_date: string;
+  end_date: string;
+  brandName: string;
+  brandCode: string;
+  minQuantity: number;
+  maxQuantity: number;
+}
+export type TSupply = (Tables<"receiving"> & { products: TProductPick })[] | null;
+type TProductPick = Pick<Tables<"products">, "brandCode" | "brandName" | "englishName" | "koreaName"> | null;
+
+export default function Page() {
+  const [supplyList, setSupplyList] = useState<TSupply>(null);
+
+  const filterSupply = (data: TSupply, searchInput: ISearchInput) => {
+    console.log("searchInput :", searchInput);
+    console.log("data :", data);
+  };
+
+  useEffect(() => {
+    const fetchSupply = async () => {
+      const data = await getSupply();
+      setSupplyList(data);
+    };
+
+    fetchSupply();
+  }, [setSupplyList]);
 
   return (
-    <div className="flex flex-col items-center justify-center w-full">
+    <div className="w-full flex-col-center">
       <SubTitle innerText="입고 조회" />
-      <SupplySearchForm />
+      <SupplySearchForm setSupplyList={setSupplyList} />
       <div className="flex flex-col mx-auto my-10 w-9/10">
-        <SortSelect items={sortContent} label="정렬 방식" color="danger" />
-        <SupplyTable />
+        <SupplyTable supplyList={supplyList} />
       </div>
     </div>
   );

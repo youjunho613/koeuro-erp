@@ -4,6 +4,7 @@ import AddProduct from "@/components/form/AddProduct";
 import ModifyProduct from "@/components/form/ModifyProduct";
 import ProductManagementTab from "@/components/tab/productManagement/ProductManagementTab";
 import ProductTable from "@/components/table/ProductTable";
+import SubTitle from "@/components/typography/SubTitle";
 import { Tables } from "@/types/supabase";
 import { supabase } from "@/utils/supabase/client";
 
@@ -61,7 +62,8 @@ export default function Page() {
   }, [currentBrand]);
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="w-full flex-col-center">
+      <SubTitle innerText="상품 관리" />
       <div className="flex flex-col items-center justify-center my-10">
         <div className="flex items-center justify-center my-5">
           <select
