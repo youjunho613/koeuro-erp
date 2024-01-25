@@ -7,7 +7,7 @@ interface INavItem {
   label: string;
   href: string;
 }
-export type TLabel = "물류" | "배송" | "인사";
+export type TLabel = "물류" | "배송" | "인사" | "매장";
 
 export const navItems: INavItems[] = [
   {
@@ -33,8 +33,8 @@ export const navItems: INavItems[] = [
   {
     label: "배송",
     navList: [
-      { key: "undelivered", label: "미배송 현황", href: "/undelivered" },
-      { key: "deliveryStatus", label: "입고 관리", href: "/delivery-status" },
+      { key: "undelivered", label: "배송 예정", href: "/undelivered" },
+      { key: "deliveryStatus", label: "배송 관리", href: "/delivery-status" },
     ],
   },
   {
@@ -42,6 +42,13 @@ export const navItems: INavItems[] = [
     navList: [
       { key: "attendance", label: "출결", href: "/attendance" },
       { key: "salary", label: "급여", href: "/salary" },
+    ],
+  },
+  {
+    label: "매장",
+    navList: [
+      { key: "attendance", label: "매장 현황", href: "/offline-shop" },
+      { key: "salary", label: "POS", href: "/offline-shop-POS" },
     ],
   },
 ];
