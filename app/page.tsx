@@ -22,7 +22,9 @@ export default async function Index() {
   return (
     <div className="flex flex-col items-center flex-1 w-full gap-20">
       <SocialNav />
-
+      <p>매출 통계</p>
+      <p>배송 통계</p>
+      
       <Footer />
     </div>
   );

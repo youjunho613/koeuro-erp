@@ -37,6 +37,7 @@ export interface Database {
           created_at: string
           deliveryPrice: number
           englishName: string | null
+          isSelling: boolean | null
           koreaName: string | null
           managerName: string
           managerNumber: number
@@ -60,6 +61,7 @@ export interface Database {
           created_at?: string
           deliveryPrice?: number
           englishName?: string | null
+          isSelling?: boolean | null
           koreaName?: string | null
           managerName: string
           managerNumber: number
@@ -83,6 +85,7 @@ export interface Database {
           created_at?: string
           deliveryPrice?: number
           englishName?: string | null
+          isSelling?: boolean | null
           koreaName?: string | null
           managerName?: string
           managerNumber?: number
@@ -145,8 +148,8 @@ export interface Database {
 }
 
 export type Tables<
-  PublicTableNameOrOptions extends 
-  | keyof (Database["public"]["Tables"] & Database["public"]["Views"])
+  PublicTableNameOrOptions extends
+    | keyof (Database["public"]["Tables"] & Database["public"]["Views"])
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &

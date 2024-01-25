@@ -51,6 +51,7 @@ export default function ProductTable({ productData }: IProps) {
               {managementColumns.map((column) => (
                 <td key={column.key}>{getKeyValue(product, column.key)}</td>
               ))}
+              <td key={product.barcode}>{product.isSelling ? "판매중" : "미판매"}</td>
               <td className="flex items-center justify-center">
                 <button
                   onClick={() => {
