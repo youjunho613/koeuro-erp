@@ -52,7 +52,17 @@ export default function SupplySearchForm({ setSupplyList }: IProps) {
         ? filteredBrandName.filter((supply) => supply.products?.brandCode.includes(data.brandCode))
         : filteredBrandName;
 
-    setSupplyList(filteredBrandCode);
+    const filteredMinQuantity =
+      data.minQuantity !== ""
+        ? filteredBrandCode.filter((supply) => supply.quantity >= Number(data.minQuantity))
+        : filteredBrandCode;
+
+    const filteredMaxQuantity =
+      data.maxQuantity !== ""
+        ? filteredMinQuantity.filter((supply) => supply.quantity <= Number(data.maxQuantity))
+        : filteredMinQuantity;
+
+    setSupplyList(filteredMaxQuantity);
   });
 
   return (

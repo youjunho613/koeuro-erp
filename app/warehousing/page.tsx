@@ -13,14 +13,15 @@ export interface ISearchInput {
   end_date: string;
   brandName: string;
   brandCode: string;
-  minQuantity: number;
-  maxQuantity: number;
+  minQuantity: string;
+  maxQuantity: string;
 }
 export type TSupply = (Tables<"receiving"> & { products: TProductPick })[] | null;
 type TProductPick = Pick<Tables<"products">, "brandCode" | "brandName" | "englishName" | "koreaName"> | null;
 
 export default function Page() {
   const [supplyList, setSupplyList] = useState<TSupply>(null);
+  console.log("supplyList :", supplyList);
 
   const filterSupply = (data: TSupply, searchInput: ISearchInput) => {
     console.log("searchInput :", searchInput);
