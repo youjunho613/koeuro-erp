@@ -11,4 +11,6 @@ export const versionData = [
   { version: "1.0.2.1", releaseDate: "2024-01-24", description: "입고 조회 기능 구현" },
   { version: "1.0.2.2", releaseDate: "2024-01-24", description: "출고 등록 기능 구현" },
   { version: "1.0.2.3", releaseDate: "2024-01-24", description: "출고 조회 기능 구현" },
+  { version: "1.0.3", releaseDate: "2024-01-25", description: "상품DB [제품 재질, 제품 구성, 중량, 출시일자] 추가" },
+  { version: "1.0.3.1", releaseDate: "2024-01-26", description: "상품 관리 > 조건검색 기능 구현" },
 ];
