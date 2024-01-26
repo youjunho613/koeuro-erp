@@ -1,7 +1,7 @@
 import { Tables } from "@/types/supabase";
 
 interface Column {
-  key: keyof Tables<"products"> | keyof Tables<"receiving">;
+  key: keyof Tables<"products"> | keyof Tables<"receiving"> | keyof Tables<"releasing">;
   label: string;
 }
 
@@ -42,6 +42,15 @@ const productColumn: Column[] = [
 export const supplyColumns: Column[] = [
   { key: "receiving_date", label: "입고일자" },
   { key: "quantity", label: "입고 수량" },
+  { key: "pastQuantity", label: "입고 후 수량" },
+  ...commonColumns,
+  ...brandSpecColumn,
+];
+
+export const releaseColumns: Column[] = [
+  { key: "releasing_date", label: "출고일자" },
+  { key: "quantity", label: "출고 수량" },
+  { key: "pastQuantity", label: "출고 후 수량" },
   ...commonColumns,
   ...brandSpecColumn,
 ];

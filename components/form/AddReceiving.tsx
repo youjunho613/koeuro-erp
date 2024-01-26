@@ -39,7 +39,7 @@ export default function AddReceiving() {
   };
 
   const supplyProduct = handleSubmit(async (data) => {
-    const { barcode, quantity, receiving_date } = data;
+    const { barcode, quantity } = data;
 
     if (barcode === undefined || String(barcode) === "") {
       toastMessage("바코드를 입력하세요", "warn");
@@ -58,7 +58,7 @@ export default function AddReceiving() {
     const totalQuantity = Number(currentProduct.quantity) + Number(quantity);
 
     updateQuantity({ barcode, quantity: totalQuantity });
-    insertReceiving({ barcode, quantity, receiving_date });
+    insertReceiving({ ...data, pastQuantity: currentProduct.quantity });
 
     reset();
     setCurrentProduct(null);

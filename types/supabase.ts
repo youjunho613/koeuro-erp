@@ -104,6 +104,7 @@ export interface Database {
           barcode: number
           created_at: string
           id: number
+          pastQuantity: number
           quantity: number
           receiving_date: string
         }
@@ -111,6 +112,7 @@ export interface Database {
           barcode: number
           created_at?: string
           id?: number
+          pastQuantity: number
           quantity: number
           receiving_date: string
         }
@@ -118,12 +120,48 @@ export interface Database {
           barcode?: number
           created_at?: string
           id?: number
+          pastQuantity?: number
           quantity?: number
           receiving_date?: string
         }
         Relationships: [
           {
             foreignKeyName: "receiving_barcode_fkey"
+            columns: ["barcode"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["barcode"]
+          }
+        ]
+      }
+      releasing: {
+        Row: {
+          barcode: number
+          created_at: string
+          id: number
+          pastQuantity: number
+          quantity: number
+          releasing_date: string
+        }
+        Insert: {
+          barcode: number
+          created_at?: string
+          id?: number
+          pastQuantity: number
+          quantity: number
+          releasing_date: string
+        }
+        Update: {
+          barcode?: number
+          created_at?: string
+          id?: number
+          pastQuantity?: number
+          quantity?: number
+          releasing_date?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "releasing_barcode_fkey"
             columns: ["barcode"]
             isOneToOne: false
             referencedRelation: "products"

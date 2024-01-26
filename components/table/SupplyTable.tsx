@@ -3,6 +3,7 @@ import { supplyColumns } from "./tableColumns";
 import TableError from "./TableError";
 import { deleteSupply } from "@/app/api/supply";
 import { TSupply } from "@/app/warehousing/page";
+import { TablesInsert } from "@/types/supabase";
 
 interface IProps {
   supplyList: TSupply;
@@ -31,7 +32,7 @@ export default function SupplyTable({ supplyList }: IProps) {
               <td className="flex items-center justify-center">
                 <button
                   onClick={() => {
-                    deleteSupply(supply.id);
+                    deleteSupply(supply.id as Pick<TablesInsert<"receiving">, "id">);
                   }}
                   className="h-auto m-1 delete-button small-button"
                 >

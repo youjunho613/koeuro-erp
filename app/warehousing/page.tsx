@@ -21,12 +21,6 @@ type TProductPick = Pick<Tables<"products">, "brandCode" | "brandName" | "englis
 
 export default function Page() {
   const [supplyList, setSupplyList] = useState<TSupply>(null);
-  console.log("supplyList :", supplyList);
-
-  const filterSupply = (data: TSupply, searchInput: ISearchInput) => {
-    console.log("searchInput :", searchInput);
-    console.log("data :", data);
-  };
 
   useEffect(() => {
     const fetchSupply = async () => {
