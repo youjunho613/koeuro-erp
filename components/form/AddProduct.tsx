@@ -1,7 +1,8 @@
+import { getBrand } from "@/app/api/brand";
 import { Tables } from "@/types/supabase";
 import { supabase } from "@/utils/supabase/client";
 import { toastMessage } from "@/utils/toast/toastMessage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface IProductInput {
@@ -44,24 +45,27 @@ export default function AddProduct({ currentBrand, selectRef }: IProps) {
   };
 
   const addProduct = handleSubmit(async (data) => {
-    if (currentBrand === "" && selectRef.current !== null) {
-      selectRef.current.focus();
-      toastMessage("브랜드를 선택하세요", "warn");
+    if (brandList === null) {
+      toastMessage("브랜드를 불러오는데 실패했습니다.", "warn");
       return;
     }
-
-    const brandName = brandData.find((brand) => brand.brandCode === currentBrand)?.brandName;
-
-    if (brandName === undefined) return;
 
     const manager = {
       managerName: "홍길동",
       managerNumber: 0,
     };
+
+    if (data.brandCode === "") {
+      toastMessage("브랜드를 선택하세요", "warn");
+      return;
+    }
+    const brandName = brandList.find((brand) => brand.brandCode === data.brandCode)?.brandName;
+    if (brandName === undefined) return;
     const brand = {
-      brandCode: currentBrand,
+      brandCode: data.brandCode,
       brandName,
     };
+
     const { error } = await supabase.from("products").insert([{ ...data, ...manager, ...brand, quantity: 0 }]);
     if (error === null) {
       toastMessage("상품이 등록되었습니다", "success");
@@ -71,8 +75,25 @@ export default function AddProduct({ currentBrand, selectRef }: IProps) {
     }
   });
 
+  useEffect(() => {
+    const fetchBrandList = async () => {
+      const data = await getBrand();
+      setBrandList(data);
+    };
+    fetchBrandList();
+  }, [setBrandList]);
+
   return (
     <form onSubmit={addProduct} className="form">
+      <select className="mx-10" id="brandSelect" {...register("brandCode")}>
+        <option value="">브랜드 선택</option>
+        {brandList !== null &&
+          brandList.map((option) => (
+            <option key={option.id} value={option.brandCode}>
+              {option.brandName}
+            </option>
+          ))}
+      </select>
       <label className="label" htmlFor="barcode">
         제품 바코드
         <p className="text-red-500">(필수)</p>
