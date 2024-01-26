@@ -11,12 +11,8 @@ import { supabase } from "@/utils/supabase/client";
 
 import { ChangeEventHandler, useEffect, useRef, useState } from "react";
 import { getFilteredProduct, getProduct } from "../api/product";
-
-const brandData = [
-  { id: 1, brandName: "부코스키", brandCode: "bukowski" },
-  { id: 2, brandName: "아스트라", brandCode: "astra" },
-  { id: 3, brandName: "노베", brandCode: "nowe" },
-];
+import AddBrand from "@/components/form/AddBrand";
+import { getBrand } from "../api/brand";
 
 export type TTab =
   | "addProduct"
@@ -31,6 +27,7 @@ export type TTab =
 export default function Page() {
   const [currentBrand, setCurrentBrand] = useState("");
   const [currentTab, setCurrentTab] = useState<TTab>("");
+  const [brandList, setBrandList] = useState<Tables<"brand">[] | null>(null);
   const [productList, setProductList] = useState<Tables<"products">[] | null>(null);
 
   const selectRef = useRef<HTMLSelectElement>(null);
@@ -46,6 +43,14 @@ export default function Page() {
     }
     setCurrentTab(target);
   };
+
+  useEffect(() => {
+    const fetchBrand = async () => {
+      const data = await getBrand();
+      setBrandList(data);
+    };
+    fetchBrand();
+  }, [setBrandList]);
 
   useEffect(() => {
     const fetchProduct = async (currentBrand: string) => {
@@ -76,24 +81,19 @@ export default function Page() {
             }}
           >
             <option value="">브랜드 선택</option>
-            {brandData.map((option) => (
-              <option key={option.id} value={option.brandCode}>
-                {option.brandName}
-              </option>
-            ))}
+            {brandList !== null &&
+              brandList.map((option) => (
+                <option key={option.id} value={option.brandCode}>
+                  {option.brandName}
+                </option>
+              ))}
           </select>
           <ProductManagementTab currentTab={currentTab} onChangeTab={onChangeTab} />
         </div>
         {currentTab === "filtering" && <ProductSearchForm setProductList={setProductList} />}
-        {currentTab === "addProduct" && (
-          <AddProduct brandData={brandData} currentBrand={currentBrand} selectRef={selectRef} />
-        )}
-        {currentTab === "modifyProduct" && <ModifyProduct setProductList={setProductList} brandData={brandData} />}
-        {currentTab === "addBrand" && (
-          <div>
-            <p>브랜드 등록 예정</p>
-          </div>
-        )}
+        {currentTab === "addProduct" && <AddProduct currentBrand={currentBrand} selectRef={selectRef} />}
+        {currentTab === "modifyProduct" && <ModifyProduct setProductList={setProductList}/>}
+        {currentTab === "addBrand" && <AddBrand />}
         {currentTab === "modifyBrand" && (
           <div>
             <p>브랜드 수정 예정</p>

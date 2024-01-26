@@ -23,22 +23,25 @@ export default function AddReleaseForm() {
 
   const onClickQuantity = (event: React.MouseEvent<HTMLButtonElement>) => {
     const { innerText } = event.currentTarget;
-    if (innerText === "-") {
-      setValue("quantity", getValues("quantity") - 1, { shouldTouch: true });
-      return;
+    switch (innerText) {
+      case "-":
+        setValue("quantity", getValues("quantity") - 1, { shouldTouch: true });
+        return;
+      case "+":
+        setValue("quantity", getValues("quantity") + 1, { shouldTouch: true });
+        return;
+      case "-10":
+        setValue("quantity", getValues("quantity") - 10, { shouldTouch: true });
+        return;
+      case "+10":
+        setValue("quantity", getValues("quantity") + 10, { shouldTouch: true });
+        return;
+      default:
+        return;
     }
-    if (innerText === "-10") {
-      setValue("quantity", getValues("quantity") - 10);
-      return;
-    }
-    if (innerText === "+10") {
-      setValue("quantity", getValues("quantity") + 10);
-      return;
-    }
-    setValue("quantity", getValues("quantity") + 1);
   };
 
-  const supplyProduct = handleSubmit(async (data) => {
+  const deliveryProduct = handleSubmit(async (data) => {
     const { barcode, quantity } = data;
 
     if (barcode === undefined || String(barcode) === "") {
@@ -58,11 +61,11 @@ export default function AddReleaseForm() {
     const totalQuantity = Number(currentProduct.quantity) - Number(quantity);
 
     updateQuantity({ barcode, quantity: totalQuantity });
-    insertReleasing({ ...data, pastQuantity: currentProduct.quantity });
+    insertReleasing({ ...data, pastQuantity: totalQuantity });
 
     reset();
     setCurrentProduct(null);
-    toastMessage("입고되었습니다", "success");
+    toastMessage("출고되었습니다", "success");
   });
 
   const datetime = new Date();
@@ -158,10 +161,12 @@ export default function AddReleaseForm() {
           </button>
         </div>
         <button></button>
-        <button type="button" onClick={supplyProduct}>
-          입고
+        <button className="success-button small-button" type="button" onClick={deliveryProduct}>
+          출고
         </button>
-        <button type="reset">초기화</button>
+        <button className="delete-button small-button" type="reset">
+          초기화
+        </button>
       </div>
     </form>
   );

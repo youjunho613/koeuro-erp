@@ -1,20 +1,20 @@
-import { supabase } from "@/utils/supabase/client";
 import { useForm } from "react-hook-form";
 import { Tables, TablesUpdate } from "@/types/supabase";
-import { ChangeEventHandler, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toastMessage } from "@/utils/toast/toastMessage";
 import { getCurrentProduct, modifyProduct } from "@/app/api/product";
+import { getBrand } from "@/app/api/brand";
 
 interface IProps {
-  brandData: { id: number; brandName: string; brandCode: string }[];
   setProductList: React.Dispatch<React.SetStateAction<Tables<"products">[] | null>>;
 }
 
-export default function ModifyProduct({ brandData, setProductList }: IProps) {
+export default function ModifyProduct({ setProductList }: IProps) {
   const [currentBarcode, setCurrentBarcode] = useState<number | undefined>(undefined);
   const [currentProduct, setCurrentProduct] = useState<Tables<"products"> | null>(null);
+  const [brandList, setBrandList] = useState<Tables<"brand">[] | null>(null);
 
-  const { register, handleSubmit } = useForm<TablesUpdate<"products">>({
+  const { register, handleSubmit, getValues } = useForm<TablesUpdate<"products">>({
     values: {
       barcode: currentProduct?.barcode ?? 0,
       koreaName: currentProduct?.koreaName ?? "",
@@ -41,18 +41,30 @@ export default function ModifyProduct({ brandData, setProductList }: IProps) {
 
   const modifyProductHandler = handleSubmit(async (data) => {
     if (currentBarcode === undefined) return;
+    if (brandList === null) {
+      toastMessage("브랜드를 불러오는데 실패했습니다.", "warn");
+      return;
+    }
     if (data.brandCode === "" || data.brandCode === undefined) {
       toastMessage("브랜드를 선택하세요", "warn");
       return;
     }
 
-    const brandName = brandData.find((brand) => brand.brandCode === data.brandCode)?.brandName;
+    const brandName = brandList.find((brand) => brand.brandCode === data.brandCode)?.brandName;
 
     try {
       modifyProduct(currentBarcode, { ...data, brandName });
       setProductList(null);
     } catch (error) {}
   });
+
+  useEffect(() => {
+    const fetchBrandList = async () => {
+      const data = await getBrand();
+      setBrandList(data);
+    };
+    fetchBrandList();
+  }, [setBrandList]);
 
   return (
     <div className="w-full">
@@ -87,18 +99,14 @@ export default function ModifyProduct({ brandData, setProductList }: IProps) {
       </form>
       {currentProduct !== null && (
         <form onSubmit={modifyProductHandler} className="flex flex-col gap-4 p-10 border bg-default-200 rounded-xl">
-          <select
-            className="mx-10"
-            id="brandSelect"
-            defaultValue={currentProduct?.brandCode}
-            {...register("brandCode")}
-          >
+          <select className="mx-10" id="brandSelect" defaultValue={getValues("brandCode")} {...register("brandCode")}>
             <option value="">브랜드 선택</option>
-            {brandData.map((option) => (
-              <option key={option.id} value={option.brandCode}>
-                {option.brandName}
-              </option>
-            ))}
+            {brandList !== null &&
+              brandList.map((option) => (
+                <option key={option.id} value={option.brandCode}>
+                  {option.brandName}
+                </option>
+              ))}
           </select>
           <div className="flex justify-between w-full gap-4 py-2 border-b border-black">
             <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="koreaName">

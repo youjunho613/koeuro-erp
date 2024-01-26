@@ -1,6 +1,7 @@
 import { Tables } from "@/types/supabase";
 import { supabase } from "@/utils/supabase/client";
 import { toastMessage } from "@/utils/toast/toastMessage";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface IProductInput {
@@ -20,10 +21,10 @@ interface IProductInput {
 interface IProps {
   currentBrand: string;
   selectRef: React.RefObject<HTMLSelectElement>;
-  brandData: { id: number; brandName: string; brandCode: string }[];
 }
 
-export default function AddProduct({ currentBrand, selectRef, brandData }: IProps) {
+export default function AddProduct({ currentBrand, selectRef }: IProps) {
+  const [brandList, setBrandList] = useState<Tables<"brand">[] | null>(null);
   const { register, handleSubmit, setFocus } = useForm<Tables<"products">>();
 
   const handleOnKeyDown = ({

@@ -3,13 +3,13 @@ import { insertReceiving } from "@/app/api/supply";
 import { Tables, TablesInsert } from "@/types/supabase";
 import { supabase } from "@/utils/supabase/client";
 import { toastMessage } from "@/utils/toast/toastMessage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function AddReceiving() {
   const [currentProduct, setCurrentProduct] = useState<Tables<"products"> | null>(null);
 
-  const { register, getValues, setValue, handleSubmit, reset } = useForm<TablesInsert<"receiving">>({
+  const { register, getValues, setValue, handleSubmit, reset, setFocus } = useForm<TablesInsert<"receiving">>({
     defaultValues: { quantity: 0 },
   });
 
@@ -23,19 +23,22 @@ export default function AddReceiving() {
 
   const onClickQuantity = (event: React.MouseEvent<HTMLButtonElement>) => {
     const { innerText } = event.currentTarget;
-    if (innerText === "-") {
-      setValue("quantity", getValues("quantity") - 1, { shouldTouch: true });
-      return;
+    switch (innerText) {
+      case "-":
+        setValue("quantity", getValues("quantity") - 1, { shouldTouch: true });
+        return;
+      case "+":
+        setValue("quantity", getValues("quantity") + 1, { shouldTouch: true });
+        return;
+      case "-10":
+        setValue("quantity", getValues("quantity") - 10, { shouldTouch: true });
+        return;
+      case "+10":
+        setValue("quantity", getValues("quantity") + 10, { shouldTouch: true });
+        return;
+      default:
+        return;
     }
-    if (innerText === "-10") {
-      setValue("quantity", getValues("quantity") - 10);
-      return;
-    }
-    if (innerText === "+10") {
-      setValue("quantity", getValues("quantity") + 10);
-      return;
-    }
-    setValue("quantity", getValues("quantity") + 1);
   };
 
   const supplyProduct = handleSubmit(async (data) => {
@@ -58,12 +61,16 @@ export default function AddReceiving() {
     const totalQuantity = Number(currentProduct.quantity) + Number(quantity);
 
     updateQuantity({ barcode, quantity: totalQuantity });
-    insertReceiving({ ...data, pastQuantity: currentProduct.quantity });
+    insertReceiving({ ...data, pastQuantity: totalQuantity });
 
     reset();
     setCurrentProduct(null);
     toastMessage("입고되었습니다", "success");
   });
+
+  useEffect(() => {
+    setFocus("barcode");
+  }, [supplyProduct]);
 
   const datetime = new Date();
   const todayDate = datetime.toISOString().substring(0, 10);
@@ -159,10 +166,12 @@ export default function AddReceiving() {
           </button>
         </div>
         <button></button>
-        <button type="button" onClick={supplyProduct}>
+        <button className="success-button small-button" type="button" onClick={supplyProduct}>
           입고
         </button>
-        <button type="reset">초기화</button>
+        <button className="delete-button small-button" type="reset">
+          초기화
+        </button>
       </div>
     </form>
   );
