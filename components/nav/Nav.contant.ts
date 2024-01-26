@@ -25,8 +25,6 @@ export const navItems: INavItems[] = [
         label: "출고 등록",
         href: "/delivery-management",
       },
-      { key: "stock", label: "재고 조회", href: "/stock" },
-      { key: "stock", label: "재고 관리", href: "/stock-management" },
       { key: "product", label: "상품 관리", href: "/product-management" },
     ],
   },
