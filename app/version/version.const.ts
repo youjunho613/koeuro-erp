@@ -7,4 +7,8 @@ export const versionColumns = [
 export const versionData = [
   { version: "1.0.0", releaseDate: "2024-01-22", description: "기획" },
   { version: "1.0.1", releaseDate: "2024-01-23", description: "상품 등록, 수정, 삭제 구현" },
+  { version: "1.0.2", releaseDate: "2024-01-24", description: "입고 등록 기능 구현" },
+  { version: "1.0.2.1", releaseDate: "2024-01-24", description: "입고 조회 기능 구현" },
+  { version: "1.0.2.2", releaseDate: "2024-01-24", description: "출고 등록 기능 구현" },
+  { version: "1.0.2.3", releaseDate: "2024-01-24", description: "출고 조회 기능 구현" },
 ];
