@@ -2,13 +2,15 @@
 
 import AddProduct from "@/components/form/AddProduct";
 import ModifyProduct from "@/components/form/ModifyProduct";
-import ProductManagementTab from "@/components/tab/productManagement/ProductManagementTab";
+import ProductSearchForm from "@/components/form/ProductSearchForm";
+import ProductManagementTab from "@/components/tab/ProductManagementTab";
 import ProductTable from "@/components/table/ProductTable";
 import SubTitle from "@/components/typography/SubTitle";
 import { Tables } from "@/types/supabase";
 import { supabase } from "@/utils/supabase/client";
 
 import { ChangeEventHandler, useEffect, useRef, useState } from "react";
+import { getFilteredProduct, getProduct } from "../api/product";
 
 const brandData = [
   { id: 1, brandName: "부코스키", brandCode: "bukowski" },
@@ -29,7 +31,7 @@ export type TTab =
 export default function Page() {
   const [currentBrand, setCurrentBrand] = useState("");
   const [currentTab, setCurrentTab] = useState<TTab>("");
-  const [productData, setProductData] = useState<Tables<"products">[] | null>(null);
+  const [productList, setProductList] = useState<Tables<"products">[] | null>(null);
 
   const selectRef = useRef<HTMLSelectElement>(null);
 
@@ -45,21 +47,19 @@ export default function Page() {
     setCurrentTab(target);
   };
 
-  const fetchProduct = async (currentBrand: string) => {
-    if (currentBrand === "") {
-      const { data } = await supabase.from("products").select("*");
-      setProductData(data);
-      return;
-    }
-
-    const { data } = await supabase.from("products").select("*").eq("brandCode", currentBrand);
-
-    setProductData(data);
-  };
-
   useEffect(() => {
+    const fetchProduct = async (currentBrand: string) => {
+      if (currentBrand === "") {
+        const data = await getProduct();
+        setProductList(data);
+        return;
+      } else {
+        const data = await getFilteredProduct(currentBrand);
+        setProductList(data);
+      }
+    };
     fetchProduct(currentBrand);
-  }, [currentBrand]);
+  }, [currentBrand, setProductList]);
 
   return (
     <div className="w-full flex-col-center">
@@ -84,17 +84,11 @@ export default function Page() {
           </select>
           <ProductManagementTab currentTab={currentTab} onChangeTab={onChangeTab} />
         </div>
-        {currentTab === "filtering" && (
-          <div>
-            <p>조건검색 예정</p>
-          </div>
-        )}
+        {currentTab === "filtering" && <ProductSearchForm setProductList={setProductList} />}
         {currentTab === "addProduct" && (
           <AddProduct brandData={brandData} currentBrand={currentBrand} selectRef={selectRef} />
         )}
-        {currentTab === "modifyProduct" && (
-          <ModifyProduct brandData={brandData} currentBrand={currentBrand} selectRef={selectRef} />
-        )}
+        {currentTab === "modifyProduct" && <ModifyProduct setProductList={setProductList} brandData={brandData} />}
         {currentTab === "addBrand" && (
           <div>
             <p>브랜드 등록 예정</p>
@@ -112,7 +106,7 @@ export default function Page() {
         )}
       </div>
 
-      <ProductTable productData={productData} />
+      <ProductTable productList={productList} />
     </div>
   );
 }

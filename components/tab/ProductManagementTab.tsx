@@ -16,12 +16,12 @@ export default function ProductManagementTab({ currentTab, onChangeTab }: IProps
   ];
 
   return (
-    <>
+    <div className="flex-center">
       {managementTabs.map((tab) => (
         <button
           key={tab.key}
-          className={`flex items-center justify-center px-4 py-2 bg-white border hover:bg-rose-300 ${
-            currentTab === tab.key ? "bg-cyan-300 border-cyan-500" : "bg-white"
+          className={`flex items-center justify-center px-4 py-2 border border-slate-300 hover:bg-slate-300 hover:border-slate-500 ${
+            currentTab === tab.key ? "bg-blue-300 border-blue-500" : "bg-white"
           }`}
           onClick={() => {
             onChangeTab(tab.key);
@@ -30,6 +30,6 @@ export default function ProductManagementTab({ currentTab, onChangeTab }: IProps
           {tab.label}
         </button>
       ))}
-    </>
+    </div>
   );
 }

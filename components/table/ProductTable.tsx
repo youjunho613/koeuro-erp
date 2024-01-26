@@ -6,10 +6,10 @@ import { toastMessage } from "@/utils/toast/toastMessage";
 import TableError from "./TableError";
 
 interface IProps {
-  productData: Tables<"products">[] | null;
+  productList: Tables<"products">[] | null;
 }
 
-export default function ProductTable({ productData }: IProps) {
+export default function ProductTable({ productList }: IProps) {
   const deleteProduct = async (barcode: number) => {
     const { error } = await supabase.from("products").delete().eq("barcode", barcode);
 
@@ -33,7 +33,7 @@ export default function ProductTable({ productData }: IProps) {
     deleteProduct(barcode);
   };
 
-  if (productData === null) return <TableError />;
+  if (productList === null) return <TableError />;
 
   return (
     <div className="table-base">
@@ -46,7 +46,7 @@ export default function ProductTable({ productData }: IProps) {
           </tr>
         </thead>
         <tbody>
-          {productData.map((product) => (
+          {productList.map((product) => (
             <tr key={product.barcode}>
               {managementColumns.map((column) => (
                 <td key={column.key}>{getKeyValue(product, column.key)}</td>

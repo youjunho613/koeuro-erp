@@ -25,6 +25,10 @@ const productSpecColumn: Column[] = [
   { key: "countryOfManufacture", label: "제조국" },
   { key: "certificationNumber", label: "인증번호" },
   { key: "minimumAge", label: "사용연령" },
+  { key: "configuration", label: "제품 구성" },
+  { key: "weight", label: "중량" },
+  { key: "releaseDate", label: "출시일자" },
+  { key: "manufacturingComponents", label: "제품 재질" },
 ];
 const priceColumn: Column[] = [
   { key: "supplyPrice", label: "입고가" },

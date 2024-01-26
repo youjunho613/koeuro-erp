@@ -3,14 +3,14 @@ import { useForm } from "react-hook-form";
 import { Tables, TablesUpdate } from "@/types/supabase";
 import { ChangeEventHandler, useEffect, useState } from "react";
 import { toastMessage } from "@/utils/toast/toastMessage";
+import { getCurrentProduct, modifyProduct } from "@/app/api/product";
 
 interface IProps {
-  currentBrand: string;
-  selectRef: React.RefObject<HTMLSelectElement>;
   brandData: { id: number; brandName: string; brandCode: string }[];
+  setProductList: React.Dispatch<React.SetStateAction<Tables<"products">[] | null>>;
 }
 
-export default function ModifyProduct({ brandData }: IProps) {
+export default function ModifyProduct({ brandData, setProductList }: IProps) {
   const [currentBarcode, setCurrentBarcode] = useState<number | undefined>(undefined);
   const [currentProduct, setCurrentProduct] = useState<Tables<"products"> | null>(null);
 
@@ -29,47 +29,29 @@ export default function ModifyProduct({ brandData }: IProps) {
       deliveryPrice: currentProduct?.deliveryPrice ?? 0,
       brandCode: currentProduct?.brandCode ?? "",
       brandName: currentProduct?.brandName ?? "",
+      isSelling: currentProduct?.isSelling ?? true,
     },
   });
+
   const fetchProduct = async (barcode: number | undefined) => {
     if (barcode === undefined) return;
-
-    const { data } = await supabase.from("products").select("*").eq("barcode", barcode).single();
-
+    const data = await getCurrentProduct(barcode);
     setCurrentProduct(data);
   };
 
-  const [currentBrand, setCurrentBrand] = useState(currentProduct?.brandCode);
-
-  const onChangeBrand: ChangeEventHandler<HTMLSelectElement> = (event) => {
-    setCurrentBrand(event.target.value);
-  };
-
-  useEffect(() => {
-    setCurrentBrand(currentProduct?.brandCode);
-  }, [currentBarcode]);
-
-  const modifyProduct = handleSubmit(async (data) => {
-    if (currentBrand === "" || currentBrand === undefined) {
+  const modifyProductHandler = handleSubmit(async (data) => {
+    if (currentBarcode === undefined) return;
+    if (data.brandCode === "" || data.brandCode === undefined) {
       toastMessage("브랜드를 선택하세요", "warn");
       return;
     }
-    if (currentBarcode === undefined) return;
 
-    const brandName = brandData.find((brand) => brand.brandCode === currentBrand)?.brandName;
+    const brandName = brandData.find((brand) => brand.brandCode === data.brandCode)?.brandName;
 
-    const { error } = await supabase
-      .from("products")
-      .update({ ...data, brandCode: currentBrand, brandName })
-      .eq("barcode", currentBarcode)
-      .single();
-
-    if (error === null) {
-      toastMessage("상품이 수정되었습니다", "success");
-    }
-    if (error !== null) {
-      toastMessage(error.message, "error");
-    }
+    try {
+      modifyProduct(currentBarcode, { ...data, brandName });
+      setProductList(null);
+    } catch (error) {}
   });
 
   return (
@@ -95,7 +77,7 @@ export default function ModifyProduct({ brandData }: IProps) {
         </label>
         <button
           type="submit"
-          className="flex h-10 px-3 py-2 rounded-lg min-w-fit bg-cyan-300 text-small"
+          className="h-10 rounded-lg min-w-fit success-button small-button text-small"
           onClick={() => {
             fetchProduct(currentBarcode);
           }}
@@ -104,15 +86,12 @@ export default function ModifyProduct({ brandData }: IProps) {
         </button>
       </form>
       {currentProduct !== null && (
-        <form onSubmit={modifyProduct} className="flex flex-col gap-4 p-10 border bg-default-200 rounded-xl">
+        <form onSubmit={modifyProductHandler} className="flex flex-col gap-4 p-10 border bg-default-200 rounded-xl">
           <select
             className="mx-10"
-            name="brandSelect"
             id="brandSelect"
             defaultValue={currentProduct?.brandCode}
-            onChange={(event) => {
-              onChangeBrand(event);
-            }}
+            {...register("brandCode")}
           >
             <option value="">브랜드 선택</option>
             {brandData.map((option) => (
@@ -141,6 +120,28 @@ export default function ModifyProduct({ brandData }: IProps) {
               <input type="text" id="size" {...register("size")} />
             </label>
           </div>
+
+          <div className="flex justify-between w-full gap-4 py-2 border-b border-black">
+            <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="weight">
+              중량
+              <input type="text" id="weight" {...register("weight")} />
+            </label>
+            <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="releaseDate">
+              출시일자
+              <input type="text" id="releaseDate" {...register("releaseDate")} />
+            </label>
+          </div>
+          <div className="flex justify-between w-full gap-4 py-2 border-b border-black">
+            <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="weight">
+              제품 구성
+              <input type="text" id="weight" {...register("weight")} />
+            </label>
+            <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="releaseDate">
+              제품 재질
+              <input type="text" id="releaseDate" {...register("releaseDate")} />
+            </label>
+          </div>
+
           <div className="flex justify-between w-full gap-4 py-2 border-b border-black">
             <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="countryOfOrigin">
               원산지
@@ -171,11 +172,18 @@ export default function ModifyProduct({ brandData }: IProps) {
               <input className="text-right" type="number" id="deliveryPrice" {...register("deliveryPrice")} />
             </label>
           </div>
-          <button type="button" onClick={modifyProduct} className="px-3 py-2 rounded-lg bg-cyan-300 text-small">
+
+          <div className="flex justify-between w-full gap-4 py-2 border-b border-black">
+            <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="isSelling">
+              판매중
+              <input className="toggle" type="checkbox" id="isSelling" {...register("isSelling")} />
+            </label>
+          </div>
+          <button type="button" onClick={modifyProductHandler} className="success-button small-button">
             수정
           </button>
-          <button type="reset" className="px-3 py-2 rounded-lg bg-rose-300 text-small">
-            초기화
+          <button type="reset" className="delete-button small-button">
+            입력 초기화
           </button>
         </form>
       )}

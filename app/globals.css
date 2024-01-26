@@ -69,9 +69,11 @@
     @apply flex items-center justify-center;
   }
   .small-button {
-    @apply h-12 gap-3 px-6 font-semibold rounded-lg button;
+    @apply h-12 gap-3 px-6 font-semibold rounded-lg button text-small;
   }
-
+  .toggle {
+    @apply w-10 cursor-pointer;
+  }
   .success-button {
     @apply bg-blue-300 text-slate-800 success-button-hover success-button-focus;
   }

@@ -71,7 +71,7 @@ export default function AddProduct({ currentBrand, selectRef, brandData }: IProp
   });
 
   return (
-    <form onSubmit={addProduct} className="flex flex-col gap-4 p-10 border">
+    <form onSubmit={addProduct} className="form">
       <label className="label" htmlFor="barcode">
         제품 바코드
         <p className="text-red-500">(필수)</p>
@@ -200,10 +200,12 @@ export default function AddProduct({ currentBrand, selectRef, brandData }: IProp
           {...register("deliveryPrice")}
         />
       </label>
-      <button type="button" onClick={addProduct}>
+      <button type="button" className="success-button small-button" onClick={addProduct}>
         등록
       </button>
-      <button type="reset">초기화</button>
+      <button type="reset" className="delete-button small-button">
+        초기화
+      </button>
     </form>
   );
 }
