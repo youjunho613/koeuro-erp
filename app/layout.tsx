@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="bg-background text-foreground">
         <Nav />
         <main className="flex flex-col items-center min-h-screen">{children}</main>
-        <Toast/>
+        <Toast />
       </body>
     </html>
   );

@@ -28,7 +28,6 @@ export default function ProductSearchForm({ setProductList }: IProps) {
   };
 
   const searchProduct = handleSubmit(async (data: ISearchInput) => {
-    console.log("data :", data);
     const productList = await getProduct();
     if (productList === null) return;
 

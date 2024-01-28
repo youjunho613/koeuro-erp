@@ -14,17 +14,9 @@ export const navItems: INavItems[] = [
     label: "물류",
     navList: [
       { key: "warehousing", label: "입고 조회", href: "/warehousing" },
-      {
-        key: "warehousing-management",
-        label: "입고 등록",
-        href: "/warehousing-management",
-      },
+      { key: "warehousing-management", label: "입고 등록", href: "/warehousing-management" },
       { key: "delivery", label: "출고 조회", href: "/delivery" },
-      {
-        key: "delivery-management",
-        label: "출고 등록",
-        href: "/delivery-management",
-      },
+      { key: "delivery-management", label: "출고 등록", href: "/delivery-management" },
       { key: "product", label: "상품 관리", href: "/product-management" },
     ],
   },
@@ -45,8 +37,9 @@ export const navItems: INavItems[] = [
   {
     label: "매장",
     navList: [
-      { key: "attendance", label: "매장 현황", href: "/offline-shop" },
-      { key: "salary", label: "POS", href: "/offline-shop-POS" },
+      { key: "offlineShop", label: "매장 매출", href: "/offline-shop" },
+      { key: "pos", label: "POS", href: "/offline-shop-POS" },
+      { key: "offlineShopManagement", label: "매장 관리", href: "/offline-shop-management" },
     ],
   },
 ];
