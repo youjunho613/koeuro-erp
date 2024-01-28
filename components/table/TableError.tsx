@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
  */
 export default function TableError() {
   const [isTimeOver, setIsTimeOver] = useState(false);
-  
+
   const timeOver = () => {
     setTimeout(() => {
       setIsTimeOver(true);
