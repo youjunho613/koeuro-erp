@@ -92,7 +92,7 @@ export default function Page() {
         </div>
         {currentTab === "filtering" && <ProductSearchForm setProductList={setProductList} />}
         {currentTab === "addProduct" && <AddProduct currentBrand={currentBrand} selectRef={selectRef} />}
-        {currentTab === "modifyProduct" && <ModifyProduct setProductList={setProductList}/>}
+        {currentTab === "modifyProduct" && <ModifyProduct setProductList={setProductList} />}
         {currentTab === "addBrand" && <AddBrand />}
         {currentTab === "modifyBrand" && (
           <div>

@@ -14,17 +14,9 @@ export const navItems: INavItems[] = [
     label: "물류",
     navList: [
       { key: "warehousing", label: "입고 조회", href: "/warehousing" },
-      {
-        key: "warehousing-management",
-        label: "입고 등록",
-        href: "/warehousing-management",
-      },
+      { key: "warehousing-management", label: "입고 등록", href: "/warehousing-management" },
       { key: "delivery", label: "출고 조회", href: "/delivery" },
-      {
-        key: "delivery-management",
-        label: "출고 등록",
-        href: "/delivery-management",
-      },
+      { key: "delivery-management", label: "출고 등록", href: "/delivery-management" },
       { key: "product", label: "상품 관리", href: "/product-management" },
     ],
   },
