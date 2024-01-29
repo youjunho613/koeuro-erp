@@ -52,10 +52,7 @@ export default function ModifyProduct({ setProductList }: IProps) {
 
     const brandName = brandList.find((brand) => brand.brandCode === data.brandCode)?.brandName;
 
-    try {
-      modifyProduct(currentBarcode, { ...data, brandName });
-      setProductList(null);
-    } catch (error) {}
+    modifyProduct(currentBarcode, { ...data, brandName });
   });
 
   useEffect(() => {
@@ -136,17 +133,17 @@ export default function ModifyProduct({ setProductList }: IProps) {
             </label>
             <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="releaseDate">
               출시일자
-              <input type="text" id="releaseDate" {...register("releaseDate")} />
+              <input type="date" id="releaseDate" {...register("releaseDate")} />
             </label>
           </div>
           <div className="flex justify-between w-full gap-4 py-2 border-b border-black">
-            <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="weight">
+            <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="configuration">
               제품 구성
-              <input type="text" id="weight" {...register("weight")} />
+              <input type="text" id="configuration" {...register("configuration")} />
             </label>
-            <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="releaseDate">
+            <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="manufacturingComponents">
               제품 재질
-              <input type="text" id="releaseDate" {...register("releaseDate")} />
+              <input type="text" id="manufacturingComponents" {...register("manufacturingComponents")} />
             </label>
           </div>
 
@@ -183,7 +180,7 @@ export default function ModifyProduct({ setProductList }: IProps) {
 
           <div className="flex justify-between w-full gap-4 py-2 border-b border-black">
             <label className="flex justify-between w-full gap-2 px-3 py-2" htmlFor="isSelling">
-              판매중
+              판매가능
               <input className="toggle" type="checkbox" id="isSelling" {...register("isSelling")} />
             </label>
           </div>
