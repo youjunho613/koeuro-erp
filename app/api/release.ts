@@ -16,6 +16,17 @@ export const getRelease = async () => {
   return data;
 };
 
+export const getFilteredRelease = async (barcode: number) => {
+  const { data, error } = await supabase.from("releasing").select("*").eq("barcode", barcode);
+
+  if (error) {
+    toastMessage(error.message, "error");
+    return null;
+  }
+
+  return data;
+};
+
 export const insertReleasing = async (releasing: TablesInsert<"releasing">) => {
   const { error } = await supabase.from("releasing").insert(releasing);
 

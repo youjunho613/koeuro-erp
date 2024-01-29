@@ -7,7 +7,6 @@ import ProductManagementTab from "@/components/tab/ProductManagementTab";
 import ProductTable from "@/components/table/ProductTable";
 import SubTitle from "@/components/typography/SubTitle";
 import { Tables } from "@/types/supabase";
-import { supabase } from "@/utils/supabase/client";
 
 import { ChangeEventHandler, useEffect, useRef, useState } from "react";
 import { getFilteredProduct, getProduct } from "../api/product";
