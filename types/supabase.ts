@@ -24,6 +24,39 @@ export interface Database {
         };
         Relationships: [];
       };
+      delivery: {
+        Row: {
+          address: string;
+          consignee: string;
+          created_at: string;
+          deliveryMessage: string | null;
+          deliveryProduct: Json[];
+          id: number;
+          memo: string | null;
+          zipCode: string;
+        };
+        Insert: {
+          address: string;
+          consignee: string;
+          created_at?: string;
+          deliveryMessage?: string | null;
+          deliveryProduct: Json[];
+          id?: number;
+          memo?: string | null;
+          zipCode: string;
+        };
+        Update: {
+          address?: string;
+          consignee?: string;
+          created_at?: string;
+          deliveryMessage?: string | null;
+          deliveryProduct?: Json[];
+          id?: number;
+          memo?: string | null;
+          zipCode?: string;
+        };
+        Relationships: [];
+      };
       notes: {
         Row: {
           id: number;
