@@ -194,6 +194,7 @@ export interface Database {
       receiving: {
         Row: {
           barcode: number;
+          category: string | null;
           created_at: string;
           id: number;
           pastQuantity: number;
@@ -202,6 +203,7 @@ export interface Database {
         };
         Insert: {
           barcode: number;
+          category?: string | null;
           created_at?: string;
           id?: number;
           pastQuantity: number;
@@ -210,6 +212,7 @@ export interface Database {
         };
         Update: {
           barcode?: number;
+          category?: string | null;
           created_at?: string;
           id?: number;
           pastQuantity?: number;
@@ -229,6 +232,7 @@ export interface Database {
       releasing: {
         Row: {
           barcode: number;
+          category: string | null;
           created_at: string;
           id: number;
           pastQuantity: number;
@@ -237,6 +241,7 @@ export interface Database {
         };
         Insert: {
           barcode: number;
+          category?: string | null;
           created_at?: string;
           id?: number;
           pastQuantity: number;
@@ -245,6 +250,7 @@ export interface Database {
         };
         Update: {
           barcode?: number;
+          category?: string | null;
           created_at?: string;
           id?: number;
           pastQuantity?: number;
