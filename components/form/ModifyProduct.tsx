@@ -5,11 +5,7 @@ import { toastMessage } from "@/utils/toast/toastMessage";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-interface IProps {
-  setProductList: React.Dispatch<React.SetStateAction<Tables<"products">[] | null>>;
-}
-
-export default function ModifyProduct({ setProductList }: IProps) {
+export default function ModifyProduct() {
   const [currentBarcode, setCurrentBarcode] = useState<number | undefined>(undefined);
   const [currentProduct, setCurrentProduct] = useState<Tables<"products"> | null>(null);
   const [brandList, setBrandList] = useState<Tables<"brand">[] | null>(null);

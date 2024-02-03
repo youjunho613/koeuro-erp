@@ -60,7 +60,7 @@ export default function Page() {
       <ProductManagementTab currentTab={currentTab} onChangeTab={onChangeTab} />
       {currentTab === "filtering" && <ProductSearchForm setProductList={setProductList} />}
       {currentTab === "addProduct" && <AddProduct />}
-      {currentTab === "modifyProduct" && <ModifyProduct setProductList={setProductList} />}
+      {currentTab === "modifyProduct" && <ModifyProduct />}
       {currentTab === "addBrand" && <AddBrand />}
       {currentTab === "modifyBrand" && <ModifyBrand />}
       <BrandSelect onChangeBrand={onChangeBrand} />
