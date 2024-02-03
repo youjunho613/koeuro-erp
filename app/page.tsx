@@ -1,7 +1,7 @@
-import { createClient } from "@/utils/supabase/server";
-import { cookies } from "next/headers";
 import Footer from "@/components/footer/Footer";
 import SocialNav from "@/components/nav/SocialNav";
+import { createClient } from "@/utils/supabase/server";
+import { cookies } from "next/headers";
 
 export default async function Index() {
   const cookieStore = cookies();

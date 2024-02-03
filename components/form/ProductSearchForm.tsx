@@ -1,5 +1,5 @@
 import { getProduct } from "@/app/api/product";
-import { Tables } from "@/types/supabase";
+import type { Tables } from "@/types/supabase";
 import { useForm } from "react-hook-form";
 
 interface IProps {

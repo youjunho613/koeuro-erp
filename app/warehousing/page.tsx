@@ -3,9 +3,9 @@
 import SupplySearchForm from "@/components/form/SupplySearchForm";
 import SupplyTable from "@/components/table/SupplyTable";
 import SubTitle from "@/components/typography/SubTitle";
+import type { Tables } from "@/types/supabase";
 import { useEffect, useState } from "react";
 import { getSupply } from "../api/supply";
-import { Tables } from "@/types/supabase";
 
 export interface ISearchInput {
   barcode: string;

@@ -1,8 +1,8 @@
 import { getRelease } from "@/app/api/release";
-import { TRelease } from "@/app/delivery/page";
-import { ISearchInput } from "@/app/warehousing/page";
-import { useState } from "react";
+import type { TRelease } from "@/app/delivery/page";
+import type { ISearchInput } from "@/app/warehousing/page";
 import type { Dispatch, SetStateAction } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface IProps {

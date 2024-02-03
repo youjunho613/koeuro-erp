@@ -1,6 +1,6 @@
 import { updateQuantity } from "@/app/api/product";
 import { insertReceiving } from "@/app/api/supply";
-import { Tables, TablesInsert } from "@/types/supabase";
+import type { Tables, TablesInsert } from "@/types/supabase";
 import { supabase } from "@/utils/supabase/client";
 import { toastMessage } from "@/utils/toast/toastMessage";
 import { useEffect, useState } from "react";

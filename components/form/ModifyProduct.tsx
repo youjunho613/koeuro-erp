@@ -1,9 +1,9 @@
-import { useForm } from "react-hook-form";
-import { Tables, TablesUpdate } from "@/types/supabase";
-import { useEffect, useState } from "react";
-import { toastMessage } from "@/utils/toast/toastMessage";
-import { getCurrentProduct, modifyProduct } from "@/app/api/product";
 import { getBrand } from "@/app/api/brand";
+import { getCurrentProduct, modifyProduct } from "@/app/api/product";
+import type { Tables, TablesUpdate } from "@/types/supabase";
+import { toastMessage } from "@/utils/toast/toastMessage";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 interface IProps {
   setProductList: React.Dispatch<React.SetStateAction<Tables<"products">[] | null>>;

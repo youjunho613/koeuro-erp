@@ -1,9 +1,9 @@
-import { TRelease } from "@/app/delivery/page";
+import { deleteRelease } from "@/app/api/release";
+import type { TRelease } from "@/app/delivery/page";
+import type { TablesInsert } from "@/types/supabase";
+import { getKeyValue } from "@nextui-org/react";
 import TableError from "./TableError";
 import { releaseColumns } from "./tableColumns";
-import { getKeyValue } from "@nextui-org/react";
-import { deleteRelease } from "@/app/api/release";
-import { TablesInsert } from "@/types/supabase";
 
 interface IProps {
   releaseList: TRelease;

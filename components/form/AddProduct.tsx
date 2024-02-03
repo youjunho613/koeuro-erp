@@ -1,5 +1,5 @@
 import { getBrand } from "@/app/api/brand";
-import { Tables } from "@/types/supabase";
+import type { Tables } from "@/types/supabase";
 import { supabase } from "@/utils/supabase/client";
 import { toastMessage } from "@/utils/toast/toastMessage";
 import { useEffect, useState } from "react";

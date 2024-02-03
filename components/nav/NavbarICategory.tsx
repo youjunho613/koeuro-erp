@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { TLabel, navItems } from "./Nav.contant";
 import { useState } from "react";
+import type { TLabel } from "./Nav.contant";
+import { navItems } from "./Nav.contant";
 
 type TCurrentItem = TLabel | false;
 

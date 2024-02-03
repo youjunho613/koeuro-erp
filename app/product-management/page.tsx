@@ -1,17 +1,17 @@
 "use client";
 
+import AddBrand from "@/components/form/AddBrand";
 import AddProduct from "@/components/form/AddProduct";
 import ModifyProduct from "@/components/form/ModifyProduct";
 import ProductSearchForm from "@/components/form/ProductSearchForm";
 import ProductManagementTab from "@/components/tab/ProductManagementTab";
 import ProductTable from "@/components/table/ProductTable";
 import SubTitle from "@/components/typography/SubTitle";
-import { Tables } from "@/types/supabase";
-
-import { ChangeEventHandler, useEffect, useRef, useState } from "react";
-import { getFilteredProduct, getProduct } from "../api/product";
-import AddBrand from "@/components/form/AddBrand";
+import type { Tables } from "@/types/supabase";
+import type { ChangeEventHandler } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getBrand } from "../api/brand";
+import { getFilteredProduct, getProduct } from "../api/product";
 
 export type TTab =
   | "addProduct"

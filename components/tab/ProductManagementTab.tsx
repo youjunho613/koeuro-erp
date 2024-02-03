@@ -1,4 +1,4 @@
-import { TTab } from "@/app/product-management/page";
+import type { TTab } from "@/app/product-management/page";
 
 interface IProps {
   currentTab: TTab;

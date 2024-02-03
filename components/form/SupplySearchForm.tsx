@@ -1,9 +1,9 @@
 "use client";
 
 import { getSupply } from "@/app/api/supply";
-import { ISearchInput, TSupply } from "@/app/warehousing/page";
-import { useState } from "react";
+import type { ISearchInput, TSupply } from "@/app/warehousing/page";
 import type { Dispatch, SetStateAction } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface IProps {
