@@ -10,7 +10,7 @@ interface IProps {
 }
 
 export default function SupplyTable({ supplyList }: IProps) {
-  if (supplyList === null) return <TableError />;
+  if (!supplyList) return <TableError />;
 
   return (
     <div className="table-base">

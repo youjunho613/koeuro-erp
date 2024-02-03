@@ -1,5 +1,5 @@
 import { deleteRelease } from "@/app/api/release";
-import type { TRelease } from "@/app/delivery/page";
+import { TRelease } from "@/app/release/page";
 import type { TablesInsert } from "@/types/supabase";
 import { getKeyValue } from "@nextui-org/react";
 import TableError from "./TableError";
@@ -8,8 +8,9 @@ import { releaseColumns } from "./tableColumns";
 interface IProps {
   releaseList: TRelease;
 }
+
 export default function ReleaseTable({ releaseList }: IProps) {
-  if (releaseList === null) return <TableError />;
+  if (!releaseList) return <TableError />;
 
   return (
     <div className="table-base">

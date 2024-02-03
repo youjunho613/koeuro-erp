@@ -44,6 +44,7 @@ const productColumn: Column[] = [
 ];
 
 export const supplyColumns: Column[] = [
+  { key: "created_at", label: "작성일" },
   { key: "receiving_date", label: "입고일자" },
   { key: "quantity", label: "입고 수량" },
   { key: "pastQuantity", label: "입고 후 수량" },

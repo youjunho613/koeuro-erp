@@ -1,60 +1,61 @@
-import { getSupply } from "@/app/api/supply";
+import { getRelease } from "@/app/api/release";
 import type { IShowForm } from "@/app/receiving/page";
-import type { ISearchInput, TSupply } from "@/app/warehousing/page";
+import { TRelease } from "@/app/release/page";
+import type { ISearchInput } from "@/app/warehousing/page";
 import { useForm } from "react-hook-form";
 
 interface IProps {
-  setSupplyList: React.Dispatch<React.SetStateAction<TSupply>>;
+  setReleaseList: React.Dispatch<React.SetStateAction<TRelease>>;
   onChangeFormShow: (target: keyof IShowForm) => void;
 }
 
-export default function SupplySearchForm({ setSupplyList, onChangeFormShow }: IProps) {
+export default function ReleaseSearchForm({ setReleaseList, onChangeFormShow }: IProps) {
   const { register, handleSubmit, reset } = useForm<ISearchInput>();
 
   const resetProduct = async () => {
-    const supplyList = await getSupply();
-    setSupplyList(supplyList);
+    const releaseList = await getRelease();
+    setReleaseList(releaseList);
     reset();
   };
 
   const searchProduct = handleSubmit(async (data) => {
-    const supplyList = await getSupply();
-    if (supplyList === null) return;
+    const releaseList = await getRelease();
+    if (releaseList === null) return;
 
     const filteredBarcode =
-      data.barcode !== "" ? supplyList.filter((supply) => String(supply.barcode) === data.barcode) : supplyList;
+      data.barcode !== "" ? releaseList.filter((release) => String(release.barcode) === data.barcode) : releaseList;
 
     const filteredStartDate =
       data.start_date !== ""
-        ? filteredBarcode.filter((supply) => supply.receiving_date >= data.start_date)
+        ? filteredBarcode.filter((release) => release.releasing_date >= data.start_date)
         : filteredBarcode;
 
     const filteredEndDate =
       data.end_date !== ""
-        ? filteredStartDate.filter((supply) => supply.receiving_date <= data.end_date)
+        ? filteredStartDate.filter((release) => release.releasing_date <= data.end_date)
         : filteredStartDate;
 
     const filteredBrandName =
       data.brandName !== ""
-        ? filteredEndDate.filter((supply) => supply.products?.brandName.includes(data.brandName))
+        ? filteredEndDate.filter((release) => release.products?.brandName.includes(data.brandName))
         : filteredEndDate;
 
     const filteredBrandCode =
       data.brandCode !== ""
-        ? filteredBrandName.filter((supply) => supply.products?.brandCode.includes(data.brandCode))
+        ? filteredBrandName.filter((release) => release.products?.brandCode.includes(data.brandCode))
         : filteredBrandName;
 
     const filteredMinQuantity =
       data.minQuantity !== ""
-        ? filteredBrandCode.filter((supply) => supply.quantity >= Number(data.minQuantity))
+        ? filteredBrandCode.filter((release) => release.quantity >= Number(data.minQuantity))
         : filteredBrandCode;
 
     const filteredMaxQuantity =
       data.maxQuantity !== ""
-        ? filteredMinQuantity.filter((supply) => supply.quantity <= Number(data.maxQuantity))
+        ? filteredMinQuantity.filter((release) => release.quantity <= Number(data.maxQuantity))
         : filteredMinQuantity;
 
-    setSupplyList(filteredMaxQuantity);
+    setReleaseList(filteredMaxQuantity);
   });
 
   return (
@@ -93,7 +94,7 @@ export default function SupplySearchForm({ setSupplyList, onChangeFormShow }: IP
         </button>
       </div>
       <button
-        className="absolute top-0 right-0 w-12 m-2 small-button delete-button"
+        className="absolute top-0 right-0 m-2 small-button delete-button"
         type="button"
         onClick={() => onChangeFormShow("searchForm")}
       >

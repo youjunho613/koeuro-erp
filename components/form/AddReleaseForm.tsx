@@ -1,15 +1,20 @@
 import { updateQuantity } from "@/app/api/product";
 import { insertReleasing } from "@/app/api/release";
+import { IShowForm } from "@/app/release/page";
 import type { Tables, TablesInsert } from "@/types/supabase";
 import { supabase } from "@/utils/supabase/client";
 import { toastMessage } from "@/utils/toast/toastMessage";
-import { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 
-export default function AddReleaseForm() {
-  const [currentProduct, setCurrentProduct] = useState<Tables<"products"> | null>(null);
+interface IProps {
+  onChangeFormShow: (target: keyof IShowForm) => void;
+}
 
-  const { register, getValues, setValue, handleSubmit, reset } = useForm<TablesInsert<"releasing">>({
+export default function AddReleaseForm({ onChangeFormShow }: IProps) {
+  const [currentProduct, setCurrentProduct] = React.useState<Tables<"products"> | null>(null);
+
+  const { register, getValues, setValue, handleSubmit, reset, setFocus } = useForm<TablesInsert<"releasing">>({
     defaultValues: { quantity: 0 },
   });
 
@@ -67,6 +72,10 @@ export default function AddReleaseForm() {
     setCurrentProduct(null);
     toastMessage("출고되었습니다", "success");
   });
+
+  React.useEffect(() => {
+    setFocus("barcode");
+  }, [deliveryProduct]);
 
   const datetime = new Date();
   const todayDate = datetime.toISOString().substring(0, 10);
@@ -168,6 +177,13 @@ export default function AddReleaseForm() {
           초기화
         </button>
       </div>
+      <button
+        className="absolute top-0 right-0 w-12 m-2 small-button delete-button"
+        type="button"
+        onClick={() => onChangeFormShow("addForm")}
+      >
+        X
+      </button>
     </form>
   );
 }
