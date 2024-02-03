@@ -11,12 +11,11 @@ export default function ProductManagementTab({ currentTab, onChangeTab }: IProps
     { key: "addProduct", label: "상품등록" },
     { key: "modifyProduct", label: "상품수정" },
     { key: "addBrand", label: "브랜드 등록" },
-    { key: "modifyBrand", label: "브랜드 수정" },
-    { key: "deleteBrand", label: "브랜드 삭제" },
+    { key: "modifyBrand", label: "브랜드 수정 및 삭제" },
   ];
 
   return (
-    <div className="flex-center">
+    <div className="flex items-center justify-center my-10">
       {managementTabs.map((tab) => (
         <button
           key={tab.key}
