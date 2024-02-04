@@ -1,4 +1,5 @@
 import { getBrand } from "@/app/api/brand";
+import { insertProduct } from "@/app/api/product";
 import type { Tables } from "@/types/supabase";
 import { supabase } from "@/utils/supabase/client";
 import { toastMessage } from "@/utils/toast/toastMessage";
@@ -12,7 +13,7 @@ interface IHandleOnKeyDown {
 
 export default function AddProduct() {
   const [brandList, setBrandList] = React.useState<Tables<"brand">[] | null>(null);
-  const { register, handleSubmit, setFocus } = useForm<Tables<"products">>();
+  const { register, handleSubmit, setFocus, reset } = useForm<Tables<"products">>();
 
   const handleOnKeyDown = ({ event, target }: IHandleOnKeyDown) => {
     if (event.key !== "Enter") return;
@@ -47,13 +48,8 @@ export default function AddProduct() {
       brandName,
     };
 
-    const { error } = await supabase.from("products").insert([{ ...data, ...manager, ...brand, quantity: 0 }]);
-    if (error === null) {
-      toastMessage("상품이 등록되었습니다", "success");
-    }
-    if (error !== null) {
-      toastMessage(error.message, "error");
-    }
+    insertProduct({ ...data, ...manager, ...brand, quantity: 0 });
+    reset();
   });
 
   React.useEffect(() => {
