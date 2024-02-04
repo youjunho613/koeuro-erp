@@ -2,13 +2,13 @@ import { getBrand } from "@/app/api/brand";
 import { getCurrentProduct, modifyProduct } from "@/app/api/product";
 import type { Tables, TablesUpdate } from "@/types/supabase";
 import { toastMessage } from "@/utils/toast/toastMessage";
-import { useEffect, useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 
 export default function ModifyProduct() {
-  const [currentBarcode, setCurrentBarcode] = useState<number | undefined>(undefined);
-  const [currentProduct, setCurrentProduct] = useState<Tables<"products"> | null>(null);
-  const [brandList, setBrandList] = useState<Tables<"brand">[] | null>(null);
+  const [currentBarcode, setCurrentBarcode] = React.useState<number | undefined>(undefined);
+  const [currentProduct, setCurrentProduct] = React.useState<Tables<"products"> | null>(null);
+  const [brandList, setBrandList] = React.useState<Tables<"brand">[] | null>(null);
 
   const { register, handleSubmit, getValues } = useForm<TablesUpdate<"products">>({
     values: {
@@ -51,7 +51,7 @@ export default function ModifyProduct() {
     modifyProduct(currentBarcode, { ...data, brandName });
   });
 
-  useEffect(() => {
+  React.useEffect(() => {
     const fetchBrandList = async () => {
       const data = await getBrand();
       setBrandList(data);

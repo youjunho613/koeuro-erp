@@ -35,8 +35,9 @@ export const navItems: INavItems[] = [
   {
     label: "매장",
     navList: [
-      { key: "attendance", label: "매장 현황", href: "/offline-shop" },
-      { key: "salary", label: "POS", href: "/offline-shop-POS" },
+      { key: "offlineShop", label: "매장 매출", href: "/offline-shop" },
+      { key: "pos", label: "POS", href: "/offline-shop-POS" },
+      { key: "offlineShopManagement", label: "매장 관리", href: "/offline-shop-management" },
     ],
   },
 ];

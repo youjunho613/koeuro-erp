@@ -4,7 +4,7 @@ import type { Tables, TablesInsert } from "@/types/supabase";
 import type { IShowForm } from "@/types/visibleStatus";
 import { supabase } from "@/utils/supabase/client";
 import { toastMessage } from "@/utils/toast/toastMessage";
-import { useEffect, useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 
 interface IProps {
@@ -12,7 +12,7 @@ interface IProps {
 }
 
 export default function AddReceiving({ onChangeFormShow }: IProps) {
-  const [currentProduct, setCurrentProduct] = useState<Tables<"products"> | null>(null);
+  const [currentProduct, setCurrentProduct] = React.useState<Tables<"products"> | null>(null);
 
   const { register, getValues, setValue, handleSubmit, reset, setFocus } = useForm<TablesInsert<"receiving">>({
     defaultValues: { quantity: 0 },
@@ -73,7 +73,7 @@ export default function AddReceiving({ onChangeFormShow }: IProps) {
     toastMessage("입고되었습니다", "success");
   });
 
-  useEffect(() => {
+  React.useEffect(() => {
     setFocus("barcode");
   }, [supplyProduct]);
 

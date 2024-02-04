@@ -24,39 +24,6 @@ export interface Database {
         };
         Relationships: [];
       };
-      delivery: {
-        Row: {
-          address: string;
-          consignee: string;
-          created_at: string;
-          deliveryMessage: string | null;
-          deliveryProduct: Json[];
-          id: number;
-          memo: string | null;
-          zipCode: string;
-        };
-        Insert: {
-          address: string;
-          consignee: string;
-          created_at?: string;
-          deliveryMessage?: string | null;
-          deliveryProduct: Json[];
-          id?: number;
-          memo?: string | null;
-          zipCode: string;
-        };
-        Update: {
-          address?: string;
-          consignee?: string;
-          created_at?: string;
-          deliveryMessage?: string | null;
-          deliveryProduct?: Json[];
-          id?: number;
-          memo?: string | null;
-          zipCode?: string;
-        };
-        Relationships: [];
-      };
       notes: {
         Row: {
           id: number;
@@ -120,7 +87,6 @@ export interface Database {
         Row: {
           barcode: number;
           brandCode: string;
-          brandId: number;
           brandName: string;
           certificationNumber: string | null;
           color: string | null;
@@ -145,7 +111,6 @@ export interface Database {
         Insert: {
           barcode: number;
           brandCode: string;
-          brandId?: number;
           brandName: string;
           certificationNumber?: string | null;
           color?: string | null;
@@ -170,7 +135,6 @@ export interface Database {
         Update: {
           barcode?: number;
           brandCode?: string;
-          brandId?: number;
           brandName?: string;
           certificationNumber?: string | null;
           color?: string | null;
@@ -192,20 +156,11 @@ export interface Database {
           supplyPrice?: number;
           weight?: string | null;
         };
-        Relationships: [
-          {
-            foreignKeyName: "products_brandId_fkey";
-            columns: ["brandId"];
-            isOneToOne: false;
-            referencedRelation: "brand";
-            referencedColumns: ["id"];
-          },
-        ];
+        Relationships: [];
       };
       receiving: {
         Row: {
           barcode: number;
-          category: string | null;
           created_at: string;
           id: number;
           pastQuantity: number;
@@ -214,7 +169,6 @@ export interface Database {
         };
         Insert: {
           barcode: number;
-          category?: string | null;
           created_at?: string;
           id?: number;
           pastQuantity: number;
@@ -223,7 +177,6 @@ export interface Database {
         };
         Update: {
           barcode?: number;
-          category?: string | null;
           created_at?: string;
           id?: number;
           pastQuantity?: number;
@@ -243,7 +196,6 @@ export interface Database {
       releasing: {
         Row: {
           barcode: number;
-          category: string | null;
           created_at: string;
           id: number;
           pastQuantity: number;
@@ -252,7 +204,6 @@ export interface Database {
         };
         Insert: {
           barcode: number;
-          category?: string | null;
           created_at?: string;
           id?: number;
           pastQuantity: number;
@@ -261,7 +212,6 @@ export interface Database {
         };
         Update: {
           barcode?: number;
-          category?: string | null;
           created_at?: string;
           id?: number;
           pastQuantity?: number;

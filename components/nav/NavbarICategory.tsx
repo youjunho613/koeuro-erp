@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import React from "react";
 import type { TLabel } from "./Nav.contant";
 import { navItems } from "./Nav.contant";
 
 type TCurrentItem = TLabel | false;
 
 export default function NavbarICategory() {
-  const [currentItem, setCurrentItem] = useState<TCurrentItem>(false);
+  const [currentItem, setCurrentItem] = React.useState<TCurrentItem>(false);
 
   const onClickItem = (item: TCurrentItem) => {
     if (currentItem === item) {
