@@ -120,6 +120,7 @@ export interface Database {
         Row: {
           barcode: number;
           brandCode: string;
+          brandId: number;
           brandName: string;
           certificationNumber: string | null;
           color: string | null;
@@ -144,6 +145,7 @@ export interface Database {
         Insert: {
           barcode: number;
           brandCode: string;
+          brandId?: number;
           brandName: string;
           certificationNumber?: string | null;
           color?: string | null;
@@ -168,6 +170,7 @@ export interface Database {
         Update: {
           barcode?: number;
           brandCode?: string;
+          brandId?: number;
           brandName?: string;
           certificationNumber?: string | null;
           color?: string | null;
@@ -189,7 +192,15 @@ export interface Database {
           supplyPrice?: number;
           weight?: string | null;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "products_brandId_fkey";
+            columns: ["brandId"];
+            isOneToOne: false;
+            referencedRelation: "brand";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       receiving: {
         Row: {
