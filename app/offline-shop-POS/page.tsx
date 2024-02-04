@@ -1,9 +1,14 @@
 "use client";
 
+import CancelButtons from "@/components/pos/CancelButtons";
+import DiscountRateInput from "@/components/pos/DiscountRateInput";
 import PaymentButtons from "@/components/pos/PaymentButtons";
-import PaymentConfig from "@/components/pos/PaymentConfig";
+import PosCartItem from "@/components/pos/PosCartItem";
+import SelectOfflineShop from "@/components/pos/SelectOfflineShop";
+import IsFloorCheckBox from "@/components/pos/isFloorCheckBox";
 import SubTitle from "@/components/typography/SubTitle";
 import type { Tables } from "@/types/supabase";
+import { discountHandler, floorHandler } from "@/utils/calculator/calculator";
 import { toastMessage } from "@/utils/toast/toastMessage";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -13,8 +18,8 @@ import { getShop } from "../api/shop";
 
 export default function Page() {
   const [discountRate, setDiscountRate] = React.useState<number>(10);
+  const [isFloor, setIsFloor] = React.useState(true);
   const [cartList, setCartList] = React.useState<Tables<"products">[]>([]);
-  const [isRound, setIsRound] = React.useState(true);
   const [shopList, setShopList] = React.useState<Tables<"shop">[]>([]);
   const [currentShop, setCurrentShop] = React.useState<Tables<"shop"> | null>(null);
 
@@ -29,8 +34,8 @@ export default function Page() {
     setCurrentShop(shop);
   };
 
-  const onChangeIsRound = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsRound(e.target.checked);
+  const onChangeIsFloor = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsFloor(e.target.checked);
   };
 
   const onChangeDiscountRate = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,8 +66,8 @@ export default function Page() {
   };
 
   const deleteProduct = (index: number) => {
-    const newCartList = cartList.filter((_, i) => i !== index);
-    setCartList(newCartList);
+    const filteredCartList = cartList.filter((_, i) => i !== index);
+    setCartList(filteredCartList);
   };
 
   const resetCartList = () => {
@@ -71,8 +76,8 @@ export default function Page() {
 
   const priceArray = cartList.map((product) => product.deliveryPrice);
   const totalPrice = priceArray.reduce((acc, cur) => acc + cur, 0);
-  const discountPrice = totalPrice * (1 - discountRate / 100);
-  const discountedTotalPrice = isRound ? Math.round(discountPrice / 1000) * 1000 : discountPrice;
+  const discountPrice = discountHandler({ price: totalPrice, discountRate });
+  const discountedTotalPrice = isFloor ? floorHandler(discountPrice) : discountPrice;
 
   React.useEffect(() => {
     const fetchShopList = async () => {
@@ -94,60 +99,55 @@ export default function Page() {
           <p className="px-3 text-lg font-semibold rounded-lg bg-slate-300">상품 수량</p>
           <p className="text-2xl font-semibold">{cartList.length} 개</p>
           <p className="px-3 text-lg font-semibold rounded-lg bg-slate-300">할인율</p>
-          <p className="text-lg font-semibold">{discountRate} %</p>
+          <p className="text-2xl font-semibold">{discountRate} %</p>
           <p className="px-3 text-lg font-semibold rounded-lg bg-slate-300">결제 금액</p>
           <p className="text-2xl font-semibold">{discountedTotalPrice.toLocaleString("ko-KR")} 원</p>
         </div>
 
-        <PaymentButtons
-          cartList={cartList}
-          currentShop={currentShop}
-          totalPrice={totalPrice}
-          discountedTotalPrice={discountedTotalPrice}
-          discountRate={discountRate}
-          resetCartList={resetCartList}
-          deleteLastPayment={deleteLastPayment}
-        />
+        {!!currentShop ? (
+          <div className="flex-wrap justify-between w-full gap-10 flex-center">
+            <CancelButtons resetCartList={resetCartList} deleteLastPayment={deleteLastPayment} />
+            <PaymentButtons
+              data={{
+                product: cartList,
+                shopId: currentShop.id,
+                totalPrice,
+                discountedTotalPrice,
+                discountRate,
+                paymentType: "",
+              }}
+              resetCartList={resetCartList}
+            />
+          </div>
+        ) : (
+          <p className="text-lg font-semibold text-center min-w-fit">결제를 위해 매장을 선택해주세요</p>
+        )}
       </div>
       <form onSubmit={addProduct} className="px-10 form">
-        <PaymentConfig
-          currentShop={currentShop}
-          discountRate={discountRate}
-          isRound={isRound}
-          onChangeDiscountRate={onChangeDiscountRate}
-          onChangeIsRound={onChangeIsRound}
-          onSelectShop={onSelectShop}
-          shopList={shopList}
-        />
-        {cartList.map((product, index) => (
-          <div key={`${product.barcode}${index}`} className="flex items-center justify-between w-full">
-            <label htmlFor={`barcode${index}`} className="w-full text-lg label">
-              <div className="flex items-center w-1/3 h-10 gap-10">
-                제품 바코드
-                <input type="text" id={`barcode${index}`} disabled value={product.barcode} />
-              </div>
-              <p className="w-1/3 h-10">제품명 : {product.koreaName}</p>
-              <p className="w-1/3 h-10">판매가 : {product.deliveryPrice}</p>
-            </label>
-            <button
-              type="button"
-              className="min-w-fit delete-button small-button"
-              onClick={() => {
-                deleteProduct(index);
-              }}
-            >
-              삭제
-            </button>
-          </div>
-        ))}
+        <div className="justify-end gap-10 text-lg label">
+          <DiscountRateInput discountRate={discountRate} onChangeDiscountRate={onChangeDiscountRate} />
+          <IsFloorCheckBox isFloor={isFloor} onChangeIsFloor={onChangeIsFloor} />
+          <SelectOfflineShop currentShop={currentShop} onSelectShop={onSelectShop} shopList={shopList} />
+        </div>
+
+        {cartList.map((product, index) => {
+          return (
+            <PosCartItem
+              isFloor={isFloor}
+              discountRate={discountRate}
+              product={{ product, index }}
+              deleteProduct={deleteProduct}
+            />
+          );
+        })}
         <label className="justify-between text-lg label" htmlFor="barcode">
           <div className="w-1/4 h-10 gap-10 flex-center">
             제품 바코드
             <input type="number" id="barcode" autoComplete="off" {...register("barcode")} />
           </div>
-          <p className="w-1/4 h-10"></p>
-          <p className="w-1/4 h-10"></p>
-          <button type="submit" onClick={addProduct}></button>
+          <button type="submit" onClick={addProduct} className="success-button small-button">
+            추가
+          </button>
         </label>
       </form>
     </div>
