@@ -1,16 +1,16 @@
-import { getKeyValue } from "@nextui-org/react";
-import { supplyColumns } from "./tableColumns";
-import TableError from "./TableError";
 import { deleteSupply } from "@/app/api/supply";
-import { TSupply } from "@/app/warehousing/page";
-import { TablesInsert } from "@/types/supabase";
+import type { TSupply } from "@/app/warehousing/page";
+import type { TablesInsert } from "@/types/supabase";
+import { getKeyValue } from "@nextui-org/react";
+import TableError from "./TableError";
+import { supplyColumns } from "./tableColumns";
 
 interface IProps {
   supplyList: TSupply;
 }
 
 export default function SupplyTable({ supplyList }: IProps) {
-  if (supplyList === null) return <TableError />;
+  if (!supplyList) return <TableError />;
 
   return (
     <div className="table-base">

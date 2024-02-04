@@ -1,25 +1,14 @@
 import { getProduct } from "@/app/api/product";
-import { Tables } from "@/types/supabase";
+import type { IProductSearchInput } from "@/types/searchForm";
+import type { Tables } from "@/types/supabase";
 import { useForm } from "react-hook-form";
 
 interface IProps {
   setProductList: React.Dispatch<React.SetStateAction<Tables<"products">[] | null>>;
 }
 
-interface ISearchInput {
-  koreaName: string;
-  englishName: string;
-  barcode: string;
-  start_date: string;
-  end_date: string;
-  brandName: string;
-  brandCode: string;
-  minQuantity: string;
-  maxQuantity: string;
-}
-
 export default function ProductSearchForm({ setProductList }: IProps) {
-  const { register, handleSubmit, reset } = useForm<ISearchInput>();
+  const { register, handleSubmit, reset } = useForm<IProductSearchInput>();
 
   const resetProduct = async () => {
     const productList = await getProduct();
@@ -27,7 +16,7 @@ export default function ProductSearchForm({ setProductList }: IProps) {
     reset();
   };
 
-  const searchProduct = handleSubmit(async (data: ISearchInput) => {
+  const searchProduct = handleSubmit(async (data: IProductSearchInput) => {
     const productList = await getProduct();
     if (productList === null) return;
 

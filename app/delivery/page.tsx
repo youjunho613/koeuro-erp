@@ -1,10 +1,10 @@
 "use client";
 
+import ReleaseForm from "@/components/form/ReleaseForm";
+import ReleaseTable from "@/components/table/ReleaseTable";
 import SubTitle from "@/components/typography/SubTitle";
 import { Tables } from "@/types/supabase";
 import { useEffect, useState } from "react";
-import ReleaseForm from "@/components/form/ReleaseForm";
-import ReleaseTable from "@/components/table/ReleaseTable";
 import { getRelease } from "../api/release";
 
 export type TRelease = (Tables<"releasing"> & { products: TProductPick })[] | null;
@@ -12,10 +12,12 @@ type TProductPick = Pick<Tables<"products">, "brandCode" | "brandName" | "englis
 
 export default function Page() {
   const [releaseList, setReleaseList] = useState<TRelease>(null);
+  console.log("releaseList state :", releaseList);
 
   useEffect(() => {
     const fetchRelease = async () => {
       const data = await getRelease();
+      console.log("fetchSupply data ----------------------------:", data);
       setReleaseList(data);
     };
 

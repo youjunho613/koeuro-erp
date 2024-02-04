@@ -16,6 +16,17 @@ export const getSupply = async () => {
   return data;
 };
 
+export const getFilteredSupply = async (barcode: number) => {
+  const { data, error } = await supabase.from("receiving").select("*").eq("barcode", barcode);
+
+  if (error) {
+    toastMessage(error.message, "error");
+    return null;
+  }
+
+  return data;
+};
+
 export const insertReceiving = async (receiving: TablesInsert<"receiving">) => {
   const { error } = await supabase.from("receiving").insert(receiving);
 

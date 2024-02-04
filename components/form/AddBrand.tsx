@@ -1,5 +1,5 @@
 import { insertBrand } from "@/app/api/brand";
-import { TablesInsert } from "@/types/supabase";
+import type { TablesInsert } from "@/types/supabase";
 import { useForm } from "react-hook-form";
 
 export default function AddBrand() {

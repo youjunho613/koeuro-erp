@@ -1,6 +1,6 @@
 "use client";
 
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link } from "@nextui-org/react";
+import { Link, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/react";
 import NavbarICategory from "./NavbarICategory";
 
 export default function Nav() {
