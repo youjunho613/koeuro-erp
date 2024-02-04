@@ -58,11 +58,13 @@ export default function Page() {
     <div className="w-full flex-col-center">
       <SubTitle innerText="상품 관리" />
       <ProductManagementTab currentTab={currentTab} onChangeTab={onChangeTab} />
-      {currentTab === "filtering" && <ProductSearchForm setProductList={setProductList} />}
-      {currentTab === "addProduct" && <AddProduct />}
-      {currentTab === "modifyProduct" && <ModifyProduct />}
-      {currentTab === "addBrand" && <AddBrand />}
-      {currentTab === "modifyBrand" && <ModifyBrand />}
+      <div className="w-9/10">
+        {currentTab === "filtering" && <ProductSearchForm setProductList={setProductList} />}
+        {currentTab === "addProduct" && <AddProduct />}
+        {currentTab === "modifyProduct" && <ModifyProduct />}
+        {currentTab === "addBrand" && <AddBrand />}
+        {currentTab === "modifyBrand" && <ModifyBrand />}
+      </div>
       <BrandSelect onChangeBrand={onChangeBrand} />
 
       <ProductTable productList={productList} />
