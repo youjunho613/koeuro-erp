@@ -6,17 +6,13 @@ import ReleaseSearchForm from "@/components/form/ReleaseSearchForm";
 import ReleaseTable from "@/components/table/ReleaseTable";
 import SubTitle from "@/components/typography/SubTitle";
 import type { Tables } from "@/types/supabase";
+import type { IShowForm } from "@/types/visibleStatus";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { getRelease } from "../api/release";
 
 export type TRelease = (Tables<"releasing"> & { products: TProductPick })[] | null | undefined;
 type TProductPick = Pick<Tables<"products">, "brandCode" | "brandName" | "englishName" | "koreaName"> | null;
-
-export interface IShowForm {
-  addForm: boolean;
-  searchForm: boolean;
-}
 
 export default function Page() {
   const { data, error, isPending, isError } = useQuery({ queryKey: ["releasing"], queryFn: getRelease });

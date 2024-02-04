@@ -1,7 +1,7 @@
 import { updateQuantity } from "@/app/api/product";
 import { insertReceiving } from "@/app/api/supply";
-import type { IShowForm } from "@/app/receiving/page";
 import type { Tables, TablesInsert } from "@/types/supabase";
+import type { IShowForm } from "@/types/visibleStatus";
 import { supabase } from "@/utils/supabase/client";
 import { toastMessage } from "@/utils/toast/toastMessage";
 import { useEffect, useState } from "react";

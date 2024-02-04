@@ -6,17 +6,13 @@ import SupplySearchForm from "@/components/form/SupplySearchForm";
 import SupplyTable from "@/components/table/SupplyTable";
 import SubTitle from "@/components/typography/SubTitle";
 import type { Tables } from "@/types/supabase";
+import type { IShowForm } from "@/types/visibleStatus";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { getSupply } from "../api/supply";
 
 export type TSupply = (Tables<"receiving"> & { products: TProductPick })[] | null | undefined;
 type TProductPick = Pick<Tables<"products">, "brandCode" | "brandName" | "englishName" | "koreaName"> | null;
-
-export interface IShowForm {
-  addForm: boolean;
-  searchForm: boolean;
-}
 
 export default function Page() {
   const { data, error, isPending, isError } = useQuery({ queryKey: ["receiving"], queryFn: getSupply });

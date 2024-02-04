@@ -1,6 +1,7 @@
 import { getSupply } from "@/app/api/supply";
-import type { IShowForm } from "@/app/receiving/page";
-import type { ISearchInput, TSupply } from "@/app/warehousing/page";
+import type { TSupply } from "@/app/receiving/page";
+import type { ISearchInput } from "@/types/searchForm";
+import type { IShowForm } from "@/types/visibleStatus";
 import { useForm } from "react-hook-form";
 
 interface IProps {

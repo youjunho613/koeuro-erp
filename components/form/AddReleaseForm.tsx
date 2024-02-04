@@ -1,7 +1,7 @@
 import { updateQuantity } from "@/app/api/product";
 import { insertReleasing } from "@/app/api/release";
-import { IShowForm } from "@/app/release/page";
 import type { Tables, TablesInsert } from "@/types/supabase";
+import type { IShowForm } from "@/types/visibleStatus";
 import { supabase } from "@/utils/supabase/client";
 import { toastMessage } from "@/utils/toast/toastMessage";
 import React from "react";

@@ -1,13 +1,20 @@
+"use client";
+
 import { getBrand } from "@/app/api/brand";
 import { Tables } from "@/types/supabase";
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
 interface IProps {
   onChangeBrand: React.ChangeEventHandler<HTMLSelectElement>;
 }
 
+type TBrand = Tables<"brand">[] | null | undefined;
+
 export default function BrandSelect({ onChangeBrand }: IProps) {
-  const [brandList, setBrandList] = React.useState<Tables<"brand">[] | null>(null);
+  const { data, error, isPending, isError } = useQuery({ queryKey: ["brand"], queryFn: getBrand });
+
+  const [brandList, setBrandList] = React.useState<TBrand>(data);
 
   const selectRef = React.useRef<HTMLSelectElement>(null);
 
@@ -30,12 +37,17 @@ export default function BrandSelect({ onChangeBrand }: IProps) {
       }}
     >
       <option value="">브랜드 선택</option>
-      {brandList !== null &&
-        brandList.map((option) => (
+      {isPending ? (
+        <option>로딩중</option>
+      ) : isError ? (
+        <option>{error.message}</option>
+      ) : (
+        brandList?.map((option) => (
           <option key={option.id} value={option.brandCode}>
             {option.brandName}
           </option>
-        ))}
+        ))
+      )}
     </select>
   );
 }

@@ -1,7 +1,7 @@
 import { getRelease } from "@/app/api/release";
-import type { IShowForm } from "@/app/receiving/page";
 import { TRelease } from "@/app/release/page";
-import type { ISearchInput } from "@/app/warehousing/page";
+import type { ISearchInput } from "@/types/searchForm";
+import type { IShowForm } from "@/types/visibleStatus";
 import { useForm } from "react-hook-form";
 
 interface IProps {
