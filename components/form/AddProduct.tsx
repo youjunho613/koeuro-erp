@@ -2,34 +2,19 @@ import { getBrand } from "@/app/api/brand";
 import type { Tables } from "@/types/supabase";
 import { supabase } from "@/utils/supabase/client";
 import { toastMessage } from "@/utils/toast/toastMessage";
-import { useEffect, useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 
-interface IProductInput {
-  barcode: number;
-  supplyPrice: number;
-  deliveryPrice: number;
-  countryOfManufacture: string;
-  countryOfOrigin: string;
-  certificationNumber: string;
-  minimumAge: string;
-  koreaName: string;
-  englishName: string;
-  color: string;
-  size: string;
+interface IHandleOnKeyDown {
+  event: React.KeyboardEvent<HTMLInputElement>;
+  target: keyof Tables<"products"> | "submit";
 }
 
 export default function AddProduct() {
-  const [brandList, setBrandList] = useState<Tables<"brand">[] | null>(null);
+  const [brandList, setBrandList] = React.useState<Tables<"brand">[] | null>(null);
   const { register, handleSubmit, setFocus } = useForm<Tables<"products">>();
 
-  const handleOnKeyDown = ({
-    event,
-    target,
-  }: {
-    event: React.KeyboardEvent<HTMLInputElement>;
-    target: keyof Tables<"products"> | "submit";
-  }) => {
+  const handleOnKeyDown = ({ event, target }: IHandleOnKeyDown) => {
     if (event.key !== "Enter") return;
     if (event.key === "Enter" && target !== "submit") {
       setFocus(target);
@@ -45,6 +30,7 @@ export default function AddProduct() {
       return;
     }
 
+    // FIXME
     const manager = {
       managerName: "홍길동",
       managerNumber: 0,
@@ -70,7 +56,7 @@ export default function AddProduct() {
     }
   });
 
-  useEffect(() => {
+  React.useEffect(() => {
     const fetchBrandList = async () => {
       const data = await getBrand();
       setBrandList(data);

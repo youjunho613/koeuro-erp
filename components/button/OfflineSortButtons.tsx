@@ -57,7 +57,7 @@ export default function OfflineSortButtons({ type, setShop }: IProps) {
       return (
         <>
           <button
-            className="ml-2 rounded-lg success-button"
+            className="p-1 ml-2 rounded-lg success-button"
             type="button"
             onClick={() => {
               dateSort({ ascending: true });
@@ -66,7 +66,7 @@ export default function OfflineSortButtons({ type, setShop }: IProps) {
             최신
           </button>
           <button
-            className="ml-2 rounded-lg success-button"
+            className="p-1 ml-2 rounded-lg success-button"
             type="button"
             onClick={() => {
               dateSort({ ascending: false });
@@ -80,7 +80,7 @@ export default function OfflineSortButtons({ type, setShop }: IProps) {
       return (
         <>
           <button
-            className="ml-2 rounded-lg success-button"
+            className="p-1 ml-2 rounded-lg success-button"
             type="button"
             onClick={() => {
               priceSort({ ascending: true });
@@ -89,7 +89,7 @@ export default function OfflineSortButtons({ type, setShop }: IProps) {
             큰 순
           </button>
           <button
-            className="ml-2 rounded-lg success-button"
+            className="p-1 ml-2 rounded-lg success-button"
             type="button"
             onClick={() => {
               priceSort({ ascending: false });
@@ -103,7 +103,7 @@ export default function OfflineSortButtons({ type, setShop }: IProps) {
       return (
         <>
           <button
-            className="ml-2 rounded-lg success-button"
+            className="p-1 ml-2 rounded-lg delete-button"
             type="button"
             onClick={() => {
               paymentSort({ ascending: true });
@@ -112,7 +112,7 @@ export default function OfflineSortButtons({ type, setShop }: IProps) {
             취소건
           </button>
           <button
-            className="ml-2 rounded-lg success-button"
+            className="p-1 ml-2 rounded-lg success-button"
             type="button"
             onClick={() => {
               paymentSort({ ascending: false });

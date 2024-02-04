@@ -1,22 +1,22 @@
 "use client";
 
-import SubTitle from "@/components/typography/SubTitle";
-import { Tables } from "@/types/supabase";
-import { useEffect, useState } from "react";
-import { getCurrentProduct } from "../api/product";
-import { toastMessage } from "@/utils/toast/toastMessage";
-import { useForm } from "react-hook-form";
-import { getShop } from "../api/shop";
 import PaymentButtons from "@/components/pos/PaymentButtons";
 import PaymentConfig from "@/components/pos/PaymentConfig";
+import SubTitle from "@/components/typography/SubTitle";
+import type { Tables } from "@/types/supabase";
+import { toastMessage } from "@/utils/toast/toastMessage";
+import React from "react";
+import { useForm } from "react-hook-form";
 import { deletePos, getLastPayment } from "../api/pos";
+import { getCurrentProduct } from "../api/product";
+import { getShop } from "../api/shop";
 
 export default function Page() {
-  const [discountRate, setDiscountRate] = useState<number>(10);
-  const [cartList, setCartList] = useState<Tables<"products">[]>([]);
-  const [isRound, setIsRound] = useState(true);
-  const [shopList, setShopList] = useState<Tables<"shop">[]>([]);
-  const [currentShop, setCurrentShop] = useState<Tables<"shop"> | null>(null);
+  const [discountRate, setDiscountRate] = React.useState<number>(10);
+  const [cartList, setCartList] = React.useState<Tables<"products">[]>([]);
+  const [isRound, setIsRound] = React.useState(true);
+  const [shopList, setShopList] = React.useState<Tables<"shop">[]>([]);
+  const [currentShop, setCurrentShop] = React.useState<Tables<"shop"> | null>(null);
 
   const { register, handleSubmit, reset } = useForm<{ barcode: number }>();
 
@@ -74,7 +74,7 @@ export default function Page() {
   const discountPrice = totalPrice * (1 - discountRate / 100);
   const discountedTotalPrice = isRound ? Math.round(discountPrice / 1000) * 1000 : discountPrice;
 
-  useEffect(() => {
+  React.useEffect(() => {
     const fetchShopList = async () => {
       const shopList = await getShop();
       if (shopList === null) {
@@ -143,7 +143,7 @@ export default function Page() {
         <label className="justify-between text-lg label" htmlFor="barcode">
           <div className="w-1/4 h-10 gap-10 flex-center">
             제품 바코드
-            <input type="number" id="barcode" {...register("barcode")} />
+            <input type="number" id="barcode" autoComplete="off" {...register("barcode")} />
           </div>
           <p className="w-1/4 h-10"></p>
           <p className="w-1/4 h-10"></p>

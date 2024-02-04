@@ -1,15 +1,15 @@
 "use client";
 
 import SubTitle from "@/components/typography/SubTitle";
-import { getShopAndOrder } from "../api/shop";
-import { useEffect, useState } from "react";
 import { Tables } from "@/types/supabase";
 import Link from "next/link";
+import React from "react";
+import { getShopAndOrder } from "../api/shop";
 
 export default function Page() {
-  const [shopList, setShopList] = useState<(Tables<"shop"> & { pos: Tables<"pos">[] })[] | null>([]);
+  const [shopList, setShopList] = React.useState<(Tables<"shop"> & { pos: Tables<"pos">[] })[] | null>([]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const fetchShop = async () => {
       const shopData = await getShopAndOrder();
       setShopList(shopData);
@@ -20,7 +20,7 @@ export default function Page() {
   return (
     <div className="w-full flex-col-center">
       <SubTitle innerText="매장 매출" />
-      <div className="w-full gap-10 my-10 flex-col-center">
+      <div className="gap-10 my-10 w-9/10 flex-col-center">
         <p>총 매장 수 : {shopList === null ? "?" : `${shopList.length}개`}</p>
         <table className="table">
           <thead>
@@ -48,21 +48,22 @@ export default function Page() {
             })}
           </tbody>
         </table>
-        <ul className="flex-wrap gap-10 p-5 border-2 border-slate-500 rounded-2xl w-9/10 flex-center">
+        <ul className="flex-wrap w-full gap-10 px-5 py-10 shadow-2xl bg-zinc-300 border-slate-500 rounded-2xl flex-center">
           {shopList?.map((shop) => {
             const totalPrice = shop.pos.map((payment) => payment.totalPrice).reduce((acc, cur) => acc + cur, 0);
             const totalProduct = shop.pos.map((payment) => payment.product).reduce((acc, cur) => acc + cur.length, 0);
             return (
-              <li key={shop.id} className="w-1/4 flex-center">
+              <li key={shop.id} className="w-1/5 shadow-2xl flex-center ">
                 <Link
                   href={`/offline-shop-payment-detail/${shop.id}`}
-                  className="w-full h-full p-5 bg-white border border-slate-500 flex-col-center rounded-xl hover:bg-slate-300"
+                  className="w-full h-full p-5 bg-white hover:text-white flex-col-center rounded-xl hover:bg-slate-500"
                 >
                   <p className="text-xl font-semibold">{shop.name}</p>
                   <p className="text-sm">{shop.category}</p>
                   <p className="self-start">결제 {shop.pos.length}건</p>
                   <p className="self-start">상품 {totalProduct}개 판매</p>
                   <p className="self-end">매출 {totalPrice.toLocaleString("ko-KR")}원</p>
+                  <button className="small-button">상세보기</button>
                 </Link>
               </li>
             );

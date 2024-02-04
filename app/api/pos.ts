@@ -43,7 +43,7 @@ export const cancelPos = async (id: number, isCancel: boolean) => {
     return;
   }
 
-  toastMessage("취소 되었습니다.", "success");
+  isCancel ? toastMessage("취소 되었습니다.", "success") : toastMessage("재승인 되었습니다.", "success");
 };
 
 export const deletePos = async (id: number) => {
