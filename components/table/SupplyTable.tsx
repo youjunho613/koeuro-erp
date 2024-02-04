@@ -1,5 +1,5 @@
 import { deleteSupply } from "@/app/api/supply";
-import type { TSupply } from "@/app/warehousing/page";
+import { TSupply } from "@/app/receiving/page";
 import type { TablesInsert } from "@/types/supabase";
 import { getKeyValue } from "@nextui-org/react";
 import TableError from "./TableError";
