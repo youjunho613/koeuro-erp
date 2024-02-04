@@ -1,4 +1,4 @@
-import { TablesUpdate } from "@/types/supabase";
+import { TablesInsert, TablesUpdate } from "@/types/supabase";
 import { supabase } from "@/utils/supabase/client";
 import { toastMessage } from "@/utils/toast/toastMessage";
 
@@ -33,6 +33,14 @@ export const getCurrentProduct = async (barcode: number) => {
   }
 
   return data;
+};
+
+export const insertProduct = async (data: TablesInsert<"products">) => {
+  const { error } = await supabase.from("products").insert(data);
+  if (error !== null) {
+    toastMessage(error.message, "error");
+  }
+  toastMessage("상품이 등록되었습니다", "success");
 };
 
 export const modifyProduct = async (barcode: number, data: TablesUpdate<"products">) => {
