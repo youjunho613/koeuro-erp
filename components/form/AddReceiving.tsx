@@ -1,13 +1,18 @@
 import { updateQuantity } from "@/app/api/product";
 import { insertReceiving } from "@/app/api/supply";
-import { Tables, TablesInsert } from "@/types/supabase";
+import type { Tables, TablesInsert } from "@/types/supabase";
+import type { IShowForm } from "@/types/visibleStatus";
 import { supabase } from "@/utils/supabase/client";
 import { toastMessage } from "@/utils/toast/toastMessage";
-import { useEffect, useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 
-export default function AddReceiving() {
-  const [currentProduct, setCurrentProduct] = useState<Tables<"products"> | null>(null);
+interface IProps {
+  onChangeFormShow: (target: keyof IShowForm) => void;
+}
+
+export default function AddReceiving({ onChangeFormShow }: IProps) {
+  const [currentProduct, setCurrentProduct] = React.useState<Tables<"products"> | null>(null);
 
   const { register, getValues, setValue, handleSubmit, reset, setFocus } = useForm<TablesInsert<"receiving">>({
     defaultValues: { quantity: 0 },
@@ -68,7 +73,7 @@ export default function AddReceiving() {
     toastMessage("입고되었습니다", "success");
   });
 
-  useEffect(() => {
+  React.useEffect(() => {
     setFocus("barcode");
   }, [supplyProduct]);
 
@@ -173,6 +178,13 @@ export default function AddReceiving() {
           초기화
         </button>
       </div>
+      <button
+        className="absolute top-0 right-0 w-12 m-2 small-button delete-button"
+        type="button"
+        onClick={() => onChangeFormShow("addForm")}
+      >
+        X
+      </button>
     </form>
   );
 }

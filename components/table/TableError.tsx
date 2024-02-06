@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import React from "react";
 
 /**
  * 추후 isLoading 구현 예정
  * @returns
  */
 export default function TableError() {
-  const [isTimeOver, setIsTimeOver] = useState(false);
+  const [isTimeOver, setIsTimeOver] = React.useState(false);
 
   const timeOver = () => {
     setTimeout(() => {
@@ -13,7 +13,7 @@ export default function TableError() {
     }, 10 * 1000);
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     timeOver();
   }, []);
 

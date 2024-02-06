@@ -21,7 +21,7 @@ export default function Page() {
         </thead>
         <tbody>
           {versionData.map((item) => (
-            <tr key={item.version} className="outline-none">
+            <tr key={item.id} className="outline-none">
               {versionColumns.map((column) => (
                 <td key={column.key} className="px-3 py-2 font-normal align-middle outline-none text-small">
                   {getKeyValue(item, column.key)}

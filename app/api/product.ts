@@ -1,4 +1,4 @@
-import { TablesUpdate } from "@/types/supabase";
+import { TablesInsert, TablesUpdate } from "@/types/supabase";
 import { supabase } from "@/utils/supabase/client";
 import { toastMessage } from "@/utils/toast/toastMessage";
 
@@ -35,8 +35,16 @@ export const getCurrentProduct = async (barcode: number) => {
   return data;
 };
 
+export const insertProduct = async (data: TablesInsert<"products">) => {
+  const { error } = await supabase.from("products").insert(data);
+  if (error !== null) {
+    toastMessage(error.message, "error");
+  }
+  toastMessage("상품이 등록되었습니다", "success");
+};
+
 export const modifyProduct = async (barcode: number, data: TablesUpdate<"products">) => {
-  const { error } = await supabase.from("products").update(data).eq("barcode", barcode).single();
+  const { error } = await supabase.from("products").update(data).eq("barcode", barcode);
 
   if (error !== null) {
     toastMessage(error.message, "error");
@@ -47,6 +55,15 @@ export const modifyProduct = async (barcode: number, data: TablesUpdate<"product
 
 export const updateQuantity = async ({ barcode, quantity }: { barcode: number; quantity: number }) => {
   const { error } = await supabase.from("products").update({ quantity }).eq("barcode", barcode);
+
+  if (error) {
+    toastMessage(error.message, "error");
+    return;
+  }
+};
+
+export const deleteProduct = async (barcode: number) => {
+  const { error } = await supabase.from("products").delete().eq("barcode", barcode);
 
   if (error) {
     toastMessage(error.message, "error");
